@@ -1,19 +1,26 @@
 const express = require('express')
 const morgan = require('morgan')
 const favicon = require('serve-favicon')
-let pokemons = require('./src/data/released_pokemon.json')
+const bodyParser = require('body-parser')
 const app = express()
 const port = 3000
 
 app
     .use(favicon(__dirname + '/src/img/favicon.ico'))
-    .use(morgan('dev')) 
+    .use(morgan('dev'))
+    .use(bodyParser.json())
 
 app.get('/', (req, res) => {
     const message = "API Pokemon GO"
-    res.json({ message })
+    res.json({message})
 })
 
 require('./src/routes/getAllPokemons')(app)
+require('./src/routes/getPokemonByID')(app)
+
+app.use(({res}) => {
+    const message = `This ressource doesn't exist. Try another URL.`
+    res.status(404).json({message})
+})
 
 app.listen(port, () => console.log(`L'application est démarrée sur http://localhost:${port}`))
