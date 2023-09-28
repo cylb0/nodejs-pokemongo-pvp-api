@@ -16,7 +16,6 @@ app.get('/', (req, res) => {
 })
 
 require('./src/routes/getAllPokemons')(app)
-require('./src/routes/getPokemonByID')(app)
 
 app.use(({res}) => {
     const message = `This ressource doesn't exist. Try another URL.`
