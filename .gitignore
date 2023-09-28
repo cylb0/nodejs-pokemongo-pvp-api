@@ -2,4 +2,7 @@
 node_modules
 
 # data
-data
+src/data
+
+# img
+src/img
