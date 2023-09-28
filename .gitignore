@@ -1,9 +1,2 @@
 # dependencies
 node_modules
-
-# data
-src/data/*
-!/src/data/pokedex.js
-
-# img
-src/img

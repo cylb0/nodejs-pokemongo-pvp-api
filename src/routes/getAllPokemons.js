@@ -6,27 +6,31 @@ const checkPokemonsData = require('./../middlewares/pokemonDataMiddleware')
 module.exports = (app) => {
     app.get('/api/pokemon', checkPokemonsData, (req, res) => {
 
-        const filteredPokemon = pokedex(pokemons, regionalForms)
+        const pokedexData = pokedex(pokemons, regionalForms)
 
         if (req.query.id && req.query.name) {
             return res.status(400).json({ message: 'Please provide either an "id" or a "name," but not both.' });
         }
 
         if (req.query.id) {
-            // getPokemonByID(req, res, filteredPokemon) 
-            getPokemonByProperty(req, res, 'pokemon_id', req.query.id, filteredPokemon)
+            const id = req.query.id
+            if (isNaN(id) || id <= 0) {
+                res.status(404).json({ message: 'Invalid ID, please provide a positive integer as a pokemon ID.' })
+            }
+            getPokemonByProperty(req, res, 'pokemon_id', id, pokedexData)
         } else if (req.query.name) {
-            getPokemonByProperty(req, res, 'pokemon_name', req.query.name, filteredPokemon)
+            const name = req.query.name
+            getPokemonByProperty(req, res, 'pokemon_name', name, pokedexData)
         } else {
-            const message = `Complete list of all ${filteredPokemon.length} released pokemons has been found.`
-            res.json({ message, data: filteredPokemon })
+            const message = `Complete list of all ${pokedexData.length} released pokemons has been found.`
+            res.json({ message, data: pokedexData })
         }
     })
 
-    function getPokemonByProperty(req, res, property, value, filteredPokemon) {
-        const matchingPokemons = filteredPokemon.filter(pokemon => pokemon[property] == value)                                                                                          
+    function getPokemonByProperty(req, res, property, value, pokedexData) {
+        const matchingPokemons = pokedexData.filter(pokemon => pokemon[property] == value)                                                                                          
         if (matchingPokemons.length === 0) {
-            return res.status(404).json({ message: `No pokemon found for ${property} ${value}` })
+            res.status(404).json({ message: `No pokemon found for ${property} ${value}` })
         }
         
         if (req.query.form) {
@@ -47,7 +51,7 @@ module.exports = (app) => {
             const message = `#${matchingPokemon[0].pokemon_id} ${matchingPokemon[0].pokemon_name} has been found.`
             res.json({ message, data: matchingPokemon })
         } else {
-            const message = `This form is unavailable for this pokemon.`
+            const message = `This form is unavailable for ${req.query.name}.`
             res.json({ message })
         }
     }
