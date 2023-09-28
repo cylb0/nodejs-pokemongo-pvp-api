@@ -23,4 +23,9 @@ app.use(({res}) => {
     res.status(404).json({message})
 })
 
+app.use((err, req, res, next) => {
+    const message = `Internal server error.`
+    res.status(500).json({message})
+})
+
 app.listen(port, () => console.log(`L'application est démarrée sur http://localhost:${port}`))
