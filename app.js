@@ -5,7 +5,11 @@ const bodyParser = require('body-parser')
 const app = express()
 const port = process.env.PORT ||3000
 
-
+const marked = require('marked')
+const fs = require('fs')
+const readmePath = __dirname + '/README.md'
+const readmeContent = fs.readFileSync(readmePath, 'utf-8')
+const readmeHTML = marked.parse(readmeContent)
 
 app
     .use(favicon(__dirname + '/src/img/favicon.ico'))
@@ -13,8 +17,7 @@ app
     .use(bodyParser.json())
 
 app.get('/', (req, res) => {
-    const message = "API Pokemon GO"
-    res.json({message})
+    res.send(readmeHTML)
 })
 
 require('./src/routes/getAllPokemons')(app)
