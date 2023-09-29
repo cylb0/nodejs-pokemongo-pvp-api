@@ -27,7 +27,7 @@ Please also note that you need to combine this query parameter with either 'id' 
 #### Example
 For the famous Raichu which has id #26, make a GET request to '/api/pokemon?id=26&form=Alola'.
 
-##Error handling
+## Error handling
 - If you provide an invalid or negative ID, you will receive a 404 error with a message explaining the issue.
 - If you provide both 'id' and 'name' query parameters, you will receive a 400 error with a message instructing to provide either one.
 - If you search for a Pokemon providing an invalid 'form' query parameter, you will receive a 404 error with a message listing valid forms.
