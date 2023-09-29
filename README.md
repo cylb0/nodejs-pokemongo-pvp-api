@@ -25,7 +25,7 @@ Available regional forms only include 'Normal', 'Alola', 'Galarian', 'Hisuian'
 Please note that some Pokemons only have a Normal form.
 Please also note that you need to combine this query parameter with either 'id' or 'name' query parameter but not both.
 #### Example
-For the famous Raichu which has id #26, make a GET request to '/api/pokemon?id=26&form=Alola'.
+For Raichu which has id #26, make a GET request to '/api/pokemon?id=26&form=Alola'.
 
 ## Error handling
 - If you provide an invalid or negative ID, you will receive a 404 error with a message explaining the issue.

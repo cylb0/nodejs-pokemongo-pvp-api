@@ -19,7 +19,7 @@ module.exports = (app) => {
             }
             getPokemonByProperty(req, res, 'pokemon_id', id, pokedexData)
         } else if (req.query.name) {
-            const name = req.query.name
+            const name = req.query.name.charAt(0).toUpperCase() + req.query.name.slice(1).toLowerCase()
             getPokemonByProperty(req, res, 'pokemon_name', name, pokedexData)
         } else {
             const message = `Complete list of all ${pokedexData.length} released pokemons has been found.`
