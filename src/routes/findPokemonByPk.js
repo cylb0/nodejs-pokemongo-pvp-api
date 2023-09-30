@@ -8,7 +8,7 @@ module.exports = (app) => {
                     const message = `This pokemon doesn't exist. Please try again with another id.`
                     return res.status(404).json({message})
                 }
-                const message = `#${pokemon.pokemon_id} ${pokemon.en_name} has been found.`
+                const message = `#${pokemon.pokemon_id} ${pokemon.name} has been found.`
                 res.json({ message, data: pokemon })
             })
             .catch(error => {

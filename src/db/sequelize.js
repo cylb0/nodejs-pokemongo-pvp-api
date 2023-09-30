@@ -19,8 +19,7 @@ const initDB = () => {
         pokemons.map(pokemon => {
             Pokemon.create({
                 pokemon_id: pokemon.pokemon_id,
-                en_name: pokemon.en_name,
-                fr_name: pokemon.fr_name,
+                name: pokemon.name,
                 form: pokemon.form,
                 base_attack: pokemon.base_attack,
                 base_defense: pokemon.base_defense,

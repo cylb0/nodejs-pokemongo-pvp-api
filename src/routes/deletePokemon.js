@@ -12,7 +12,7 @@ module.exports = (app) => {
                 where: { id: pokemon.id }
             })
             .then(_ => {
-                const message = `#${deletedPokemon.pokemon_id} ${deletedPokemon.en_name} has been successfully deleted.`
+                const message = `#${deletedPokemon.pokemon_id} ${deletedPokemon.name} has been successfully deleted.`
                 res.json({ message, data: deletedPokemon })
             })
             .catch(error => {

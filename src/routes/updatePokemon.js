@@ -13,11 +13,18 @@ module.exports = (app) => {
                         const message = `This pokemon doesn't exist. Please try again with another id.`
                         return res.status(404).json({message})
                     }
-                    const message = `#${pokemon.pokemon_id} ${pokemon.en_name} has been successfully modified.`
+                    const message = `#${pokemon.pokemon_id} ${pokemon.name} has been successfully modified.`
                     res.json({ message, data: pokemon })
                 })
         })
         .catch(error => {
+            if (error instanceof UniqueConstraintError) {
+                const message = `A Pokémon already exists for this id and form.`;
+                return res.status(400).json({ message, data: error });
+            }
+            if (error instanceof ValidationError) {
+                return res.status(400).json({ message: error.message, data: error })
+            }
             const message = `The pokemon couldn't be updated, please try again in a few minutes.`
             res.status(500).json({ message, data: error })
         })
