@@ -1,4 +1,4 @@
-# PokemongoAPI BY GRETABELIKE
+# PokemongoAPI
 
 PokemonGoAPI is a simple API allowing consumers to obtain pvp stats for each pokemon in the mobile game pokemon GO.
 
