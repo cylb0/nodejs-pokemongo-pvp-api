@@ -17,6 +17,10 @@ module.exports = ( sequelize, DataTypes ) => {
             type: DataTypes.STRING,
             allowNull: false
         },
+        form: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         base_attack: {
             type: DataTypes.INTEGER,
             allowNull: false
