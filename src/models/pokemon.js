@@ -13,10 +13,6 @@ module.exports = ( sequelize, DataTypes ) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        fr_name: {
-            type: DataTypes.STRING,
-            allowNull: false
-        },
         form: {
             type: DataTypes.STRING,
             allowNull: false
@@ -37,6 +33,11 @@ module.exports = ( sequelize, DataTypes ) => {
     {
         timestamps: true,
         createdAt: 'created',
-        updatedAt: false
-    })
+        updatedAt: false,
+        uniqueKeys: {
+            unique_regional_form: {
+                fields: ['pokemon_id', 'form']
+            }
+        }
+    })  
 }

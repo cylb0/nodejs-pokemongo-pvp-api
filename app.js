@@ -24,6 +24,15 @@ app.get('/', (req, res) => {
     res.send(readmeHTML)
 })
 
-require('./src/routes/getAllPokemons')(app)
+require('./src/routes/findAllPokemons')(app)
+require('./src/routes/findPokemonByPk')(app)
+require('./src/routes/createPokemon')(app)
+require('./src/routes/updatePokemon')(app)
+require('./src/routes/deletePokemon')(app)
+
+app.use(({res}) => {
+    const message = `Resource does not exist ! Please try another URL.`
+    res.status(404).json({ message })
+})
 
 app.listen(port, () => console.log(`L'application est démarrée sur le port ${port}`))
