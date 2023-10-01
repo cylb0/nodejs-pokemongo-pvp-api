@@ -50,7 +50,7 @@ module.exports = ( sequelize, DataTypes ) => {
                 notNull: { msg: 'base_attack is required.' },
                 min: {
                     args: [1],
-                    msg: 'base_attack must be a positive integer.'
+                    msg: 'base_attack must be superior or equal to one.'
                 }
             }
         },
@@ -62,7 +62,7 @@ module.exports = ( sequelize, DataTypes ) => {
                 notNull: { msg: 'base_defense is required.' },
                 min: {
                     args: [1],
-                    msg: 'base_defense must be a positive integer.'
+                    msg: 'base_defense must be superior or equal to one.'
                 }
             }
         },
@@ -74,7 +74,7 @@ module.exports = ( sequelize, DataTypes ) => {
                 notNull: { msg: 'base_stamina is required.' },
                 min: {
                     args: [1],
-                    msg: 'base_stamina must be a positive integer.'
+                    msg: 'base_stamina must be superior or equal to one.'
                 }
             }
         }
