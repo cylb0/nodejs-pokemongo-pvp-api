@@ -84,7 +84,7 @@ module.exports = ( sequelize, DataTypes ) => {
         updatedAt: false,
         uniqueKeys: {
             unique_regional_form: {
-                fields: ['pokemon_id', 'form']
+                fields: ['pokemon_id', 'form'],
             }
         }
     })  

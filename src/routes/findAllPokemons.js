@@ -4,7 +4,8 @@ module.exports = (app) => {
     app.get('/api/pokemon', (req, res) => {
 
         Pokemon.findAll({
-            attributes: { exclude: ['id'] }
+            attributes: { exclude: ['id'] },
+            order: [['pokemon_id', 'asc']]
         })  
             .then(pokemons => {
                 const message = `Pokemons have been retrieved successfully.`
