@@ -1,5 +1,6 @@
 # dependencies
 node_modules
 
-# private key
+# sensitive
 src/auth/secret_key.js
+.env
