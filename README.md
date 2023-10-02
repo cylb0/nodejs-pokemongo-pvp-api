@@ -10,6 +10,24 @@ You may retrieve every available Pokemon data by making a GET request to '/api/p
 ### GET /api/pokemon?id=26 - Search by pokemon ID
 You can search for a specific Pokemon using its ID using the 'id' query parameter.
 Please note that when searching by ID, you may receive multiple results if the Pokemon has different available regional forms.
+#### Example of data
+```json
+{
+	"message": "1 pokemons found.",
+	"data": [
+		{
+			"id": 1,
+			"pokemon_id": 1,
+			"name": "Bulbasaur",
+			"form": "Normal",
+			"base_attack": 118,
+			"base_defense": 111,
+			"base_stamina": 128,
+			"created": "2023-10-02T21:11:02.000Z"
+		}
+	]
+}
+```
 
 ### GET /api/pokemon?name=Raichu - Search by name
 You can search for a Pokemon by its name using the 'name' query parameter.
