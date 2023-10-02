@@ -1,8 +1,9 @@
 const { ValidationError, UniqueConstraintError } = require('sequelize')
 const { Pokemon } = require('./../db/sequelize')
+const auth = require('./../auth/auth')
 
 module.exports = (app) => {
-    app.put('/api/pokemon/:id', (req, res) => {
+    app.put('/api/pokemon/:id', auth, (req, res) => {
         const id = req.params.id
         Pokemon.findByPk(id)
             .then(pokemon => {
