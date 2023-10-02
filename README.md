@@ -32,7 +32,7 @@ Include your username and password in the request body as JSON
 
 ```json
 {
-  "email": "your_email@example.com",
+  "username": "your_username",
   "password": "your_password"
 }
 ```
