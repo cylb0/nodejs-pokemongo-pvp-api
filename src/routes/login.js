@@ -1,7 +1,7 @@
 const { User } = require('./../db/sequelize')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const secretKey = require('./../auth/secret_key')
+const secretKey = process.env.SECRET_KEY
 
 module.exports = (app) => {
     app.post('/api/login', (req, res) => {
