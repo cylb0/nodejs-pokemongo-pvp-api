@@ -4,6 +4,7 @@ module.exports = (app) => {
     app.get('/api/available_pokemons', (req, res) => {
         Pokemon.findAll({
             attributes: ['pokemon_id', 'name'],
+            group: ['pokemon_id', 'name'],
             order: [['pokemon_id', 'asc']]
         })
         .then(pokemons => {
