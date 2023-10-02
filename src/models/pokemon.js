@@ -1,5 +1,5 @@
 const validForms = ['Normal', 'Alolan', 'Galarian', 'Hisuian']
-const { Op, ValidationError } = require('sequelize');
+const { Op } = require('sequelize');
 
 module.exports = ( sequelize, DataTypes ) => {
     return sequelize.define('Pokemon', {
@@ -82,28 +82,44 @@ module.exports = ( sequelize, DataTypes ) => {
     {
         timestamps: true,
         createdAt: 'created',
-        updatedAt: 'updated',
+        updatedAt: false,
         validate: {
             uniquePokemonIdForAName() {
                 const Pokemon = this.sequelize.models.Pokemon
+
+                const whereClause = {
+                    [Op.or]: [
+                        {
+                            pokemon_id: this.pokemon_id,
+                            name: { [Op.ne]: this.name }
+                        },
+                        {
+                            name: this.name,
+                            pokemon_id: { [Op.ne]: this.pokemon_id }
+                        }
+                    ],
+                    id: { [Op.ne]: this.id }
+                }
+
                 return Pokemon.findAll({
-                    where: {
-                        [Op.or]: [
-                            {
-                                pokemon_id: this.pokemon_id,
-                                name: { [Op.ne]: this.name }
-                            },
-                            {
-                                name: this.name,
-                                pokemon_id: { [Op.ne]: this.pokemon_id }
-                            }
-                        ]
-                    }
+                    where: whereClause
                 })
                     .then(pokemons => {
-                        if (pokemons.some(pokemon => pokemon.pokemon_id === this.pokemon_id && pokemon.name !== this.name)) {
+                        if (
+                            pokemons.some(
+                                pokemon => 
+                                    pokemon.pokemon_id === this.pokemon_id && 
+                                    pokemon.name !== this.name
+                            )
+                        ) {
                             throw new Error('A pokemon already exists for this pokemon_id but it has a different name.')
-                        } else if (pokemons.some(pokemon => pokemon.name === this.name && pokemon.pokemon_id !== this.pokemon_id)) {
+                        } else if (
+                            pokemons.some(
+                                pokemon => 
+                                    pokemon.name === this.name && 
+                                    pokemon.pokemon_id !== this.pokemon_id
+                            )
+                        ){
                             throw new Error('A pokemon already exists for this name but it has a different pokemon_id.')
                         }
                     })

@@ -21,13 +21,12 @@ module.exports = (app) => {
             bcrypt.compare(password, user.password).then(isValid => {
                 if(!isValid) {
                     const message = 'The password is incorrect, please try again.'
-                    return res.json({ message, data: user })
+                    return res.status(400).json({ message })
                 }
 
                 const token = jwt.sign(
                     {
-                        userId: user.id,
-                        username: user.name
+                        userId: user.id
                     },
                     secretKey,
                     { expiresIn: '1h' }

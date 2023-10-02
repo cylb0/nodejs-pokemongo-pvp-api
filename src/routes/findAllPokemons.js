@@ -35,7 +35,7 @@ module.exports = (app) => {
         Pokemon.findAndCountAll({
             where: whereClause,
             limit: 3,
-            attributes: { exclude: ['id'] },
+            // attributes: { exclude: ['id'] },
             order: [['pokemon_id', 'asc']]
         })  
             .then(({ count, rows }) => {
