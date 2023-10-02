@@ -1,2 +1,5 @@
 # dependencies
 node_modules
+
+# private key
+src/auth/secret_key.js
