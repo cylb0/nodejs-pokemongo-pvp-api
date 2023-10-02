@@ -1,5 +1,2 @@
 # dependencies
 node_modules
-
-# private key
-src/auth
