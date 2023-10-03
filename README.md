@@ -11,6 +11,7 @@ You may retrieve every available Pokemon data by making a GET request to '/api/p
 You can search for a specific Pokemon using its ID using the 'id' query parameter.
 Please note that when searching by ID, you may receive multiple results if the Pokemon has different available regional forms.
 #### Example of data
+
 ```json
 {
 	"message": "1 pokemons found.",
