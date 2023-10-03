@@ -24,6 +24,7 @@ const initDB = () => {
                 pokemon_id: pokemon.pokemon_id,
                 name: pokemon.name,
                 form: pokemon.form,
+                sprite_url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.pokemon_id}.png`,
                 base_attack: pokemon.base_attack,
                 base_defense: pokemon.base_defense,
                 base_stamina: pokemon.base_stamina

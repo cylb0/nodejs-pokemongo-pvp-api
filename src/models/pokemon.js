@@ -42,6 +42,14 @@ module.exports = ( sequelize, DataTypes ) => {
                 }
             }
         },
+        sprite_url: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: { msg: 'Sprite url field cannot be empty.' },
+                notNull: { msg: 'Sprite url field is required.' }
+            }
+        },
         base_attack: {
             type: DataTypes.INTEGER,
             allowNull: false,
