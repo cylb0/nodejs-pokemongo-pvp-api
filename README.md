@@ -23,14 +23,14 @@ Please note that when searching by ID, you may receive multiple results if the P
 			"base_attack": 118,
 			"base_defense": 111,
 			"base_stamina": 128,
-			"created": "2023-10-02T21:11:02.000Z"
+			"created": "2023-10-03T00:52:52.000Z"
 		}
 	]
 }
 ```
 
 ### GET /api/pokemon?name=saur - Search by name
-You can search for a Pokemon by its name using the 'name' query parameter. Please note that you can search only using partial names.
+You can search for a Pokemon by its name using the 'name' query parameter. Please note that you can use partial names.
 Please also note that when searching by name, you may receive multiple results if the Pokemon has different available regional forms.
 #### Example of data
 ```json
@@ -139,7 +139,7 @@ You will receive an authentication token in the response if login is successful.
 ```
 
 ### Sending requests with authentication
-To access protected endpoints, you need to include to obtained token in the Authorization header of your request.
+To access protected endpoints, you need to include the obtained token in the Authorization header of your request.
 
 ```
 Authorization: Bearer your_token
