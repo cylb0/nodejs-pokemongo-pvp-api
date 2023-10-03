@@ -11,7 +11,6 @@ You may retrieve every available Pokemon data by making a GET request to '/api/p
 You can search for a specific Pokemon using its ID using the 'id' query parameter.
 Please note that when searching by ID, you may receive multiple results if the Pokemon has different available regional forms.
 #### Example of data
-
 ```json
 {
 	"message": "1 pokemons found.",
@@ -73,7 +72,7 @@ Please also note that when searching by name, you may receive multiple results i
 ```
 
 ### GET /api/pokemon?name=Raichu&form=Alolan - Search for specific regional form
-If you're looking for a specific form of a Pokemon, you can provide a 'form' query parameter.
+If you're looking for a specific form of a Pokemon, you can provide a 'form' query parameter in addition to an ID or name.
 Available regional forms only include 'Normal', 'Alola', 'Galarian', 'Hisuian'
 Please note that some Pokemons only have a Normal form.
 Please also note that you need to combine this query parameter with either 'id' or 'name' query parameter but not both.
