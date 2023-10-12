@@ -1,7 +1,9 @@
 const { Sequelize, DataTypes } = require('sequelize')
 const PokemonModel = require('./../models/pokemon')
+const FormModel = require('./../models/form')
+// const EvolutionModel = require('./../models/evolution')
 const UserModel = require('./../models/user')
-let pokemons = require('./../data/mock')
+const { pokemons, forms } = require('./../data/mock')
 
 const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
     host: process.env.DB_HOST,
@@ -14,20 +16,35 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USERNAME
 })
 
 const Pokemon = PokemonModel(sequelize, DataTypes)
+const Form = FormModel(sequelize, DataTypes)
 const User = UserModel(sequelize, DataTypes)
+
+Pokemon.hasMany(Form, {
+    foreignKey: 'pokemonId',
+    onDelete: 'CASCADE'
+})
+Form.belongsTo(Pokemon, {
+    foreignKey: 'pokemonId',
+    onDelete: 'CASCADE'
+})
 
 const initDB = () => {
     return sequelize.sync({force: true}).then(_ => {
         console.log('pokemons : ',pokemons)
         pokemons.map(pokemon => {
             Pokemon.create({
-                pokemon_id: pokemon.pokemon_id,
-                name: pokemon.name,
-                form: pokemon.form,
-                sprite_url: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.pokemon_id}.png`,
-                base_attack: pokemon.base_attack,
-                base_defense: pokemon.base_defense,
-                base_stamina: pokemon.base_stamina
+                id: pokemon.pokemon_id,
+                pokemon_name: pokemon.pokemon_name
+            })
+        })
+
+        forms.map(form => {
+            Form.create({
+                pokemonId: form.pokemonId,
+                form: form.form,
+                base_attack: form.base_attack,
+                base_defense: form.base_defense,
+                base_stamina: form.base_stamina
             })
         })
 
@@ -40,4 +57,4 @@ const initDB = () => {
     .then(_ => console.log('La base de données a bien été initialisée.'))
 }
 
-module.exports = { initDB, Pokemon, User }
+module.exports = { initDB, Pokemon, Form, User }

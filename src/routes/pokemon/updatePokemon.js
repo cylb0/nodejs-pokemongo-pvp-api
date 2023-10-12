@@ -1,6 +1,6 @@
 const { ValidationError, UniqueConstraintError } = require('sequelize')
-const { Pokemon } = require('./../db/sequelize')
-const auth = require('./../auth/auth')
+const { Pokemon } = require('../../db/sequelize')
+const auth = require('../../auth/auth')
 
 module.exports = (app) => {
     app.put('/api/pokemon/:id', auth, (req, res) => {
@@ -14,7 +14,7 @@ module.exports = (app) => {
 
                 pokemon.update(req.body)
                     .then(updatedPokemon => {
-                        const message = `#${pokemon.pokemon_id} ${pokemon.name} has been successfully modified.`
+                        const message = `#${updatedPokemon.id} ${updatedPokemon.pokemon_name} has been successfully modified.`
                         res.json({ message, data: pokemon })
                     })
                     .catch(error => {

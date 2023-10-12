@@ -1,142 +1,31 @@
-const validForms = ['Normal', 'Alolan', 'Galarian', 'Hisuian']
-const { Op } = require('sequelize');
-
 module.exports = ( sequelize, DataTypes ) => {
     return sequelize.define('Pokemon', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            autoIncrement: true
-        },
-        pokemon_id: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
             validate: {
-                isInt: { msg: `The pokemon_id must be an integer.` },
-                notNull: { msg: `The pokemon_id is required.` },
-                min: {
+                isInt: { msg: 'id field must be an int.' },
+                min: { 
                     args: [1],
-                    msg: `The pokemon_id must be a positive integer.`
+                    msg: 'id field must be greater than or equal to 1.'
                 }
             }
         },
-        name: {
+        pokemon_name: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                notEmpty: { msg: 'Name field cannot be empty.' },
-                notNull: { msg: 'Name field is required.' }
-            }
-        },
-        form: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                isFormValid(value){
-                    if(!value){
-                        throw new Error('A pokemon needs a form.')
-                    }
-                    if (!validForms.includes(value)){
-                        throw new Error(`Form is invalid, valid forms are ${validForms.join(', ')}`)
-                    }
-                }
-            }
-        },
-        sprite_url: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: { msg: 'Sprite url field cannot be empty.' },
-                notNull: { msg: 'Sprite url field is required.' }
-            }
-        },
-        base_attack: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            validate: {
-                isInt: { msg: 'base_attack must be an integer.' },
-                notNull: { msg: 'base_attack is required.' },
-                min: {
-                    args: [1],
-                    msg: 'base_attack must be superior or equal to one.'
-                }
-            }
-        },
-        base_defense: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            validate: {
-                isInt: { msg: 'base_defense must be an integer.' },
-                notNull: { msg: 'base_defense is required.' },
-                min: {
-                    args: [1],
-                    msg: 'base_defense must be superior or equal to one.'
-                }
-            }
-        },
-        base_stamina: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            validate: {
-                isInt: { msg: 'base_stamina must be an integer.' },
-                notNull: { msg: 'base_stamina is required.' },
-                min: {
-                    args: [1],
-                    msg: 'base_stamina must be superior or equal to one.'
-                }
+                notEmpty: { msg: 'pokemon_name field cannot be empty.' },
+                notNull: { msg: 'pokemon_name field is required.' }
+            },
+            unique: {
+                msg: 'This pokemon_name is already used.'
             }
         }
     }, 
     {
         timestamps: true,
         createdAt: 'created',
-        updatedAt: false,
-        validate: {
-            uniquePokemonIdForAName() {
-                const Pokemon = this.sequelize.models.Pokemon
-
-                const whereClause = {
-                    [Op.or]: [
-                        {
-                            pokemon_id: this.pokemon_id,
-                            name: { [Op.ne]: this.name }
-                        },
-                        {
-                            name: this.name,
-                            pokemon_id: { [Op.ne]: this.pokemon_id }
-                        }
-                    ],
-                    id: { [Op.ne]: this.id }
-                }
-
-                return Pokemon.findAll({
-                    where: whereClause
-                })
-                    .then(pokemons => {
-                        if (
-                            pokemons.some(
-                                pokemon => 
-                                    pokemon.pokemon_id === this.pokemon_id && 
-                                    pokemon.name !== this.name
-                            )
-                        ) {
-                            throw new Error('A pokemon already exists for this pokemon_id but it has a different name.')
-                        } else if (
-                            pokemons.some(
-                                pokemon => 
-                                    pokemon.name === this.name && 
-                                    pokemon.pokemon_id !== this.pokemon_id
-                            )
-                        ){
-                            throw new Error('A pokemon already exists for this name but it has a different pokemon_id.')
-                        }
-                    })
-            }
-        },
-        uniqueKeys: {
-            unique_regional_form: {
-                fields: ['pokemon_id', 'form'],
-            }
-        }
-    })  
+        updatedAt: false
+    })
 }

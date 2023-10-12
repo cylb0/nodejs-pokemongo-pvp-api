@@ -1,5 +1,4 @@
-const { Pokemon } = require('./../db/sequelize')
-const validForms = ['Normal', 'Alolan', 'Galarian', 'Hisuian']
+const { Pokemon } = require('../../db/sequelize')
 const { Op } = require('sequelize')
 
 module.exports = (app) => {
@@ -14,29 +13,20 @@ module.exports = (app) => {
         if (req.query.id) {
             const id = req.query.id
             if (isNaN(id) || id <= 0) {
-                return res.json({ message: 'Invalid pokemon id, please provide a positive integer as a pokemon id.' })
+                return res.status(400).json({ message: 'Invalid pokemon id, please provide a positive integer as a pokemon id.' })
             }
-            whereClause.pokemon_id = id
+            whereClause.id = id
         }
 
         if (req.query.name) {
             const name = req.query.name
-            whereClause.name = { [Op.like]: `%${name}%` }
-        }
-
-        if (req.query.form) {
-            const form = req.query.form.charAt(0).toUpperCase() + req.query.form.slice(1).toLowerCase()
-            if (!validForms.includes(form)) {
-                return res.json({ message: `Invalid form, valid form are : ${validForms.join(', ')}` })
-            }
-            whereClause.form = form
+            whereClause.pokemon_name = { [Op.like]: `%${name}%` }
         }
 
         Pokemon.findAndCountAll({
             where: whereClause,
             limit: 3,
-            // attributes: { exclude: ['id'] },
-            order: [['pokemon_id', 'asc']]
+            order: [['id', 'asc']]
         })  
             .then(({ count, rows }) => {
                 const message = `${count} pokemons found.`;

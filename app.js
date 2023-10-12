@@ -28,12 +28,18 @@ app.get('/', (req, res) => {
     res.send(readmeHTML)
 })
 
-require('./src/routes/findAllPokemons')(app)
-require('./src/routes/findAllReleasedPokemons')(app)
-require('./src/routes/findPokemonByPk')(app)
-require('./src/routes/createPokemon')(app)
-require('./src/routes/updatePokemon')(app)
-require('./src/routes/deletePokemon')(app)
+require('./src/routes/pokemon/findAllPokemons')(app)
+require('./src/routes/pokemon/findPokemonByPk')(app)
+require('./src/routes/pokemon/createPokemon')(app)
+require('./src/routes/pokemon/updatePokemon')(app)
+require('./src/routes/pokemon/deletePokemon')(app)
+
+require('./src/routes/form/findAllForm')(app)
+require('./src/routes/form/findFormByPk')(app)
+require('./src/routes/form/createForm')(app)
+require('./src/routes/form/deleteForm')(app)
+require('./src/routes/form/updateForm')(app)
+
 require('./src/routes/login')(app)
 
 app.use(({res}) => {

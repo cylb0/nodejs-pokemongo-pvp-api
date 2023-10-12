@@ -1,5 +1,5 @@
-const { Pokemon } = require('./../db/sequelize')
-const auth = require('./../auth/auth')
+const { Pokemon } = require('../../db/sequelize')
+const auth = require('../../auth/auth')
 
 module.exports = (app) => {
     app.delete('/api/pokemon/:id', auth, (req, res) => {
@@ -13,7 +13,7 @@ module.exports = (app) => {
                 where: { id: pokemon.id }
             })
             .then(_ => {
-                const message = `#${deletedPokemon.pokemon_id} ${deletedPokemon.name} has been successfully deleted.`
+                const message = `#${deletedPokemon.id} ${deletedPokemon.pokemon_name} has been successfully deleted.`
                 res.json({ message, data: deletedPokemon })
             })
             .catch(error => {

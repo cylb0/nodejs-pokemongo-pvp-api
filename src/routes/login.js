@@ -29,7 +29,7 @@ module.exports = (app) => {
                         userId: user.id
                     },
                     secretKey,
-                    { expiresIn: '1h' }
+                    { expiresIn: '24h' }
                 )
 
                 const message = 'User has been logged in successfully.'
