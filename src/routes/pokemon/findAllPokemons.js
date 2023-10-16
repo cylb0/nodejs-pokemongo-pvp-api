@@ -1,8 +1,9 @@
 const { Pokemon } = require('../../db/sequelize')
 const { Op } = require('sequelize')
+const auth = require('./../../auth/auth')
 
 module.exports = (app) => {
-    app.get('/api/pokemon', (req, res) => {
+    app.get('/api/pokemon', auth, (req, res) => {
         
         let whereClause = {}
 
@@ -15,7 +16,7 @@ module.exports = (app) => {
             if (isNaN(id) || id <= 0) {
                 return res.status(400).json({ message: 'Invalid pokemon id, please provide a positive integer as a pokemon id.' })
             }
-            whereClause.id = id
+            whereClause.pokemon_id = id
         }
 
         if (req.query.name) {
@@ -25,8 +26,11 @@ module.exports = (app) => {
 
         Pokemon.findAndCountAll({
             where: whereClause,
-            limit: 3,
-            order: [['id', 'asc']]
+            limit: 10,
+            order: [['pokemon_id', 'asc']],
+            attributes: {
+                exclude: ['created']
+            }
         })  
             .then(({ count, rows }) => {
                 const message = `${count} pokemons found.`;

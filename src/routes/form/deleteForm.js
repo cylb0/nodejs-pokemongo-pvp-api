@@ -14,11 +14,11 @@ module.exports = (app) => {
                     where: { id: form.id }
                 })
                     .then(_ => {
-                        const message = `Record ${deletedForm.id} for ${deletedForm.form} form of Pokemon #${deletedForm.pokemonId} has been successfully deleted.`
+                        const message = `Record with id ${deletedForm.id} for ${deletedForm.form} form of Pokemon #${deletedForm.pokemonId} has been successfully deleted.`
                         res.json({ message, data: deletedForm })
                     })
                     .catch(error => {
-                        res.json({ message: `Record couldn't be deleted, please try again in a few minutes.` })
+                        res.status(500).json({ message: `Record couldn't be deleted, please try again in a few minutes.` })
                     })
             })
     })

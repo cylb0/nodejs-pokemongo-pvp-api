@@ -1,9 +1,11 @@
 const { ValidationError, UniqueConstraintError } = require('sequelize')
 const { Pokemon } = require('../../db/sequelize')
 const auth = require('../../auth/auth')
+const { capitalizeFirstLetter } = require('./../../middlewares/capitalizeFirstLetter')
+
 
 module.exports = (app) => {
-    app.put('/api/pokemon/:id', auth, (req, res) => {
+    app.put('/api/pokemon/:id', auth, capitalizeFirstLetter, (req, res) => {
         const id = req.params.id
         Pokemon.findByPk(id)
             .then(pokemon => {
@@ -14,13 +16,18 @@ module.exports = (app) => {
 
                 pokemon.update(req.body)
                     .then(updatedPokemon => {
-                        const message = `#${updatedPokemon.id} ${updatedPokemon.pokemon_name} has been successfully modified.`
+                        const message = `#${updatedPokemon.pokemon_id} ${updatedPokemon.pokemon_name} has been successfully modified.`
                         res.json({ message, data: pokemon })
                     })
                     .catch(error => {
                         if (error instanceof UniqueConstraintError) {
-                            const message = `A Pokémon already exists for this id and form.`;
-                            return res.status(400).json({ message, data: error });
+                            if (error.fields['PRIMARY']) {
+                                const message = `There is already a pokemon with this pokemon_id`
+                                return res.status(400).json({ message, data: error });
+                            } if (error.fields['pokemon_name']) {
+                                const message = `There is already a pokemon with this pokemon_name`
+                                return res.status(400).json({ message, data: error });
+                            }
                         }
                         if (error instanceof ValidationError) {
                             return res.status(400).json({ message: error.message, data: error })

@@ -10,13 +10,14 @@ module.exports = (app) => {
             }
             const deletedPokemon = pokemon
             Pokemon.destroy({
-                where: { id: pokemon.id }
+                where: { pokemon_id: pokemon.pokemon_id }
             })
             .then(_ => {
-                const message = `#${deletedPokemon.id} ${deletedPokemon.pokemon_name} has been successfully deleted.`
+                const message = `#${deletedPokemon.pokemon_id} ${deletedPokemon.pokemon_name} has been successfully deleted.`
                 res.json({ message, data: deletedPokemon })
             })
             .catch(error => {
+                console.error('Unhandled Error:', error.message, error.stack);
                 const message = `The pokemon couldn't be deleted, please try again in a few minutes.`
                 res.status(500).json({ message, data: error })
             })

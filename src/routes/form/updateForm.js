@@ -1,5 +1,5 @@
 const { Form } = require('./../../db/sequelize')
-const { ValidationError, UniqueConstraintError } = require('sequelize')
+const { ValidationError, UniqueConstraintError, ForeignKeyConstraintError } = require('sequelize')
 const auth = require('./../../auth/auth')
 
 module.exports = (app) => {
@@ -12,12 +12,16 @@ module.exports = (app) => {
                 }
                 form.update(req.body)
                     .then(updatedForm => {
-                        const message = `Record ${updatedForm.id} for ${updatedForm.form} form of pokemon #${updatedForm.pokemonId} has been successfuly updated.`
-                        res.json({ message, data: updatedForm })
+                        const message = `${updatedForm.form} form of pokemon #${updatedForm.pokemonId} has been successfuly updated.`
+                        return res.json({ message, data: updatedForm })
                     })
                     .catch(error => {
                         if (error instanceof UniqueConstraintError) {
                             const message = `A record already exist for this Pokemon and form.`
+                            return res.status(400).json({ message, data: error });
+                        }
+                        if (error instanceof ForeignKeyConstraintError) {
+                            const message = `Foreign key violation, cannot find a record for this pokemonId.`
                             return res.status(400).json({ message, data: error });
                         }
                         if (error instanceof ValidationError) {

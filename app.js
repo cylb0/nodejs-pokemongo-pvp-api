@@ -34,11 +34,17 @@ require('./src/routes/pokemon/createPokemon')(app)
 require('./src/routes/pokemon/updatePokemon')(app)
 require('./src/routes/pokemon/deletePokemon')(app)
 
-require('./src/routes/form/findAllForm')(app)
+require('./src/routes/form/findAllForms')(app)
 require('./src/routes/form/findFormByPk')(app)
 require('./src/routes/form/createForm')(app)
 require('./src/routes/form/deleteForm')(app)
 require('./src/routes/form/updateForm')(app)
+
+require('./src/routes/evolution/createEvolution')(app)
+require('./src/routes/evolution/updateEvolution')(app)
+require('./src/routes/evolution/findAllEvolutions')(app)
+require('./src/routes/evolution/findEvolutionByPk')(app)
+require('./src/routes/evolution/deleteEvolution')(app)
 
 require('./src/routes/login')(app)
 

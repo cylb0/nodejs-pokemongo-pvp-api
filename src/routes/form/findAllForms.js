@@ -1,9 +1,10 @@
-const { Form, Pokemon } = require('./../../db/sequelize')
+const { Form, Pokemon } = require('../../db/sequelize')
 const { Op } = require('sequelize')
 const allowedForms = ['normal', 'alolan', 'galarian', 'hisuian', 'paldean']
+const auth = require('./../../auth/auth')
 
 module.exports = (app) => {
-    app.get('/api/form', (req, res) => {
+    app.get('/api/form', auth, (req, res) => {
 
         let whereClause = {}
 
@@ -19,15 +20,26 @@ module.exports = (app) => {
             whereClause.form = form
         }
 
+        const promises = [];
+
         if (req.query.id) {
             const id = req.query.id
             if (isNaN(id) || id < 1) {
                 return res.status(400).json({ message: 'Invalid pokemon_id, ' })
             }
-            whereClause.pokemonId = id
+            const idPromise = Pokemon.findOne({ where: { pokemon_id: id }})
+            .then(pokemon => {
+                if (pokemon === null) {
+                    return res.status(404).json({ message: `No pokemon record for that id. Please try again with another id.` })
+                }
+                whereClause.pokemonId = pokemon.id
+            })
+            .catch(error => {
+                return res.status(500).json({ message: `An error occured while retrieving the pokemon.`, data: error })
+            })
+            promises.push(idPromise)
         }
         
-        const promises = [];
         if (req.query.name) {
             const name = req.query.name
             const namePromise = Pokemon.findOne({ where: { pokemon_name: { [Op.like]: `%${name}%` } }})
@@ -46,14 +58,14 @@ module.exports = (app) => {
         Promise.all(promises)
             .then(() => {
                 return  Form.findAndCountAll({
-                    attributes: [['pokemonId', 'pokemon_id'], 'Pokemon.pokemon_name', 'form', 'base_attack', 'base_defense', 'base_stamina'],
+                    attributes: ['Pokemon.pokemon_id', 'Pokemon.pokemon_name', 'form', 'base_attack', 'base_defense', 'base_stamina'],
                     include: {
                         model: Pokemon,
                         attributes: [],
                         required: true
                     },
                     where: whereClause,
-                    order: [['pokemon_id', 'asc']],
+                    order: [[{ model: Pokemon, as: 'Pokemon' }, 'pokemon_id', 'asc']],
                     raw: true
                 })
             })       

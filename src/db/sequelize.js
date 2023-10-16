@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize')
 const PokemonModel = require('./../models/pokemon')
 const FormModel = require('./../models/form')
-// const EvolutionModel = require('./../models/evolution')
+const EvolutionModel = require('./../models/evolution')
 const UserModel = require('./../models/user')
 const { pokemons, forms } = require('./../data/mock')
 
@@ -17,6 +17,7 @@ const sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USERNAME
 
 const Pokemon = PokemonModel(sequelize, DataTypes)
 const Form = FormModel(sequelize, DataTypes)
+const Evolution = EvolutionModel(sequelize, DataTypes)
 const User = UserModel(sequelize, DataTypes)
 
 Pokemon.hasMany(Form, {
@@ -28,12 +29,29 @@ Form.belongsTo(Pokemon, {
     onDelete: 'CASCADE'
 })
 
+Form.hasMany(Evolution, {
+    foreignKey: 'fromId',
+    onDelete: 'CASCADE'
+})
+Form.hasMany(Evolution, {
+    foreignKey: 'toId',
+    onDelete: 'CASCADE'
+})
+Evolution.belongsTo(Form, {
+    foreignKey: 'fromId',
+    onDelete: 'CASCADE'
+})
+Evolution.belongsTo(Form, {
+    foreignKey: 'toId',
+    onDelete: 'CASCADE'
+})
+
 const initDB = () => {
     return sequelize.sync({force: true}).then(_ => {
-        console.log('pokemons : ',pokemons)
+
         pokemons.map(pokemon => {
             Pokemon.create({
-                id: pokemon.pokemon_id,
+                pokemon_id: pokemon.pokemon_id,
                 pokemon_name: pokemon.pokemon_name
             })
         })
@@ -57,4 +75,4 @@ const initDB = () => {
     .then(_ => console.log('La base de données a bien été initialisée.'))
 }
 
-module.exports = { initDB, Pokemon, Form, User }
+module.exports = { initDB, Pokemon, Form, Evolution, User }

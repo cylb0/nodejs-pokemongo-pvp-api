@@ -1,13 +1,13 @@
 module.exports = ( sequelize, DataTypes ) => {
     return sequelize.define('Pokemon', {
-        id: {
+        pokemon_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             validate: {
-                isInt: { msg: 'id field must be an int.' },
+                isInt: { msg: 'pokemon_id field must be an int.' },
                 min: { 
                     args: [1],
-                    msg: 'id field must be greater than or equal to 1.'
+                    msg: 'pokemon_id field must be greater than or equal to 1.'
                 }
             }
         },

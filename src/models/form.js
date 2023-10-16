@@ -12,7 +12,7 @@ module.exports = ( sequelize, DataTypes ) => {
             allowNull: false,
             references: {
                 model: 'pokemons',
-                key: 'id'
+                key: 'pokemon_id'
             }
         },
         form: {

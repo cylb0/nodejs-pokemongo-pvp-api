@@ -1,24 +1,40 @@
 module.exports = ( sequelize, DataTypes ) => {
-    const Evolution = sequelize.define('Evolution', {
+    return sequelize.define('Evolution', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        from_id: {
+        fromId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'pokemons',
+                model: 'forms',
                 key: 'id'
+            },
+            validate: {
+                isInt: { msg: 'fromId must be an integer.' },
+                notNull: { msg: 'fromId is required.' },
+                min: {
+                    args: [1],
+                    msg: 'fromId must be superior or equal to one.'
+                }
             }
         },
-        to_id: {
+        toId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
-                model: 'pokemons',
+                model: 'forms',
                 key: 'id'
+            },
+            validate: {
+                isInt: { msg: 'toid must be an integer.' },
+                notNull: { msg: 'toId is required.' },
+                min: {
+                    args: [1],
+                    msg: 'toId must be superior or equal to one.'
+                }
             }
         }
     },
@@ -28,10 +44,8 @@ module.exports = ( sequelize, DataTypes ) => {
         updatedAt: false,
         uniqueKeys: {
             unique_from_to: {
-                fields: ['from_id', 'to_id'],
+                fields: ['fromId', 'toId'],
             }
         }
     })
-
-    return Evolution
 }
