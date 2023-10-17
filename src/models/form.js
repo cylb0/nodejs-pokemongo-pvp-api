@@ -1,4 +1,4 @@
-const validForms = ['Normal', 'Alolan', 'Galarian', 'Hisuian']
+const validForms = ['Normal', 'Alolan', 'Galarian', 'Hisuian', 'Mega']
 
 module.exports = ( sequelize, DataTypes ) => {
     return sequelize.define('Form', {

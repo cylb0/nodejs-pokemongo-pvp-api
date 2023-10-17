@@ -1,6 +1,6 @@
 const { ValidationError, UniqueConstraintError, Op, ForeignKeyConstraintError } = require('sequelize')
-const { Evolution, Form, Pokemon } = require('../../db/sequelize')
-const auth = require('../../auth/auth')
+const { Evolution, Form, Pokemon } = require('../../../db/sequelize')
+const auth = require('../../../auth/auth')
 
 module.exports = (app) => {
     app.post('/api/evolution', auth, async(req, res) => {

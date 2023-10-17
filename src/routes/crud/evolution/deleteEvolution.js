@@ -1,5 +1,5 @@
-const { Evolution } = require('./../../db/sequelize')
-const auth = require('./../../auth/auth')
+const { Evolution } = require('./../../../db/sequelize')
+const auth = require('./../../../auth/auth')
 
 module.exports = (app) => {
     app.delete('/api/evolution/:id', auth, (req, res) => {

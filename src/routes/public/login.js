@@ -1,4 +1,4 @@
-const { User } = require('./../db/sequelize')
+const { User } = require('./../../db/sequelize')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const secretKey = process.env.SECRET_KEY

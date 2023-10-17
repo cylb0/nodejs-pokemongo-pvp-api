@@ -1,5 +1,5 @@
-const { Form } = require('./../../db/sequelize')
-const auth = require('./../../auth/auth')
+const { Form } = require('./../../../db/sequelize')
+const auth = require('./../../../auth/auth')
 
 module.exports = (app) => {
     app.get('/api/form/:id', auth, (req, res) => {

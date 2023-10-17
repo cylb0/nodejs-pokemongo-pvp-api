@@ -21,6 +21,17 @@ module.exports = ( sequelize, DataTypes ) => {
             unique: {
                 msg: 'This pokemon_name is already used.'
             }
+        },
+        pokemon_name_fr: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: { msg: 'pokemon_name_fr field cannot be empty.' },
+                notNull: { msg: 'pokemon_name_fr field is required.' }
+            },
+            unique: {
+                msg: 'This pokemon_name_fr is already used.'
+            }
         }
     }, 
     {

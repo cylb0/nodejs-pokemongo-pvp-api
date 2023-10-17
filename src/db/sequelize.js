@@ -47,29 +47,32 @@ Evolution.belongsTo(Form, {
 })
 
 const initDB = () => {
-    return sequelize.sync({force: true}).then(_ => {
+    return sequelize.sync(
+        // {force: true}
+        ).then(_ => {
 
-        pokemons.map(pokemon => {
-            Pokemon.create({
-                pokemon_id: pokemon.pokemon_id,
-                pokemon_name: pokemon.pokemon_name
-            })
-        })
+        // pokemons.map(pokemon => {
+        //     Pokemon.create({
+        //         pokemon_id: pokemon.pokemon_id,
+        //         pokemon_name: pokemon.pokemon_name,
+        //         pokemon_name_fr: pokemon.pokemon_name_fr
+        //     })
+        // })
 
-        forms.map(form => {
-            Form.create({
-                pokemonId: form.pokemonId,
-                form: form.form,
-                base_attack: form.base_attack,
-                base_defense: form.base_defense,
-                base_stamina: form.base_stamina
-            })
-        })
+        // forms.map(form => {
+        //     Form.create({
+        //         pokemonId: form.pokemonId,
+        //         form: form.form,
+        //         base_attack: form.base_attack,
+        //         base_defense: form.base_defense,
+        //         base_stamina: form.base_stamina
+        //     })
+        // })
 
-        User.create({
-            username: 'cylb',
-            password: '$2a$12$.7L0Craftt563.QQgfDILeSdBW/A/K/KF3IOm7qIKFb14X3jjrrwC'
-        })
+        // User.create({
+        //     username: 'cylb',
+        //     password: '$2a$12$.7L0Craftt563.QQgfDILeSdBW/A/K/KF3IOm7qIKFb14X3jjrrwC'
+        // })
 
     })
     .then(_ => console.log('La base de données a bien été initialisée.'))

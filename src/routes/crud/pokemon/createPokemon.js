@@ -1,7 +1,7 @@
 const { ValidationError, UniqueConstraintError } = require('sequelize')
-const { Pokemon } = require('../../db/sequelize')
-const auth = require('../../auth/auth')
-const { capitalizeFirstLetter } = require('./../../middlewares/capitalizeFirstLetter')
+const { Pokemon } = require('../../../db/sequelize')
+const auth = require('../../../auth/auth')
+const { capitalizeFirstLetter } = require('./../../../middlewares/capitalizeFirstLetter')
 
 module.exports = (app) => {
     app.post('/api/pokemon', auth, capitalizeFirstLetter, (req, res) => {

@@ -28,25 +28,26 @@ app.get('/', (req, res) => {
     res.send(readmeHTML)
 })
 
-require('./src/routes/pokemon/findAllPokemons')(app)
-require('./src/routes/pokemon/findPokemonByPk')(app)
-require('./src/routes/pokemon/createPokemon')(app)
-require('./src/routes/pokemon/updatePokemon')(app)
-require('./src/routes/pokemon/deletePokemon')(app)
+require('./src/routes/crud/pokemon/findAllPokemons')(app)
+require('./src/routes/crud/pokemon/findPokemonByPk')(app)
+require('./src/routes/crud/pokemon/createPokemon')(app)
+require('./src/routes/crud/pokemon/updatePokemon')(app)
+require('./src/routes/crud/pokemon/deletePokemon')(app)
 
-require('./src/routes/form/findAllForms')(app)
-require('./src/routes/form/findFormByPk')(app)
-require('./src/routes/form/createForm')(app)
-require('./src/routes/form/deleteForm')(app)
-require('./src/routes/form/updateForm')(app)
+require('./src/routes/crud/form/findAllForms')(app)
+require('./src/routes/crud/form/findFormByPk')(app)
+require('./src/routes/crud/form/createForm')(app)
+require('./src/routes/crud/form/deleteForm')(app)
+require('./src/routes/crud/form/updateForm')(app)
 
-require('./src/routes/evolution/createEvolution')(app)
-require('./src/routes/evolution/updateEvolution')(app)
-require('./src/routes/evolution/findAllEvolutions')(app)
-require('./src/routes/evolution/findEvolutionByPk')(app)
-require('./src/routes/evolution/deleteEvolution')(app)
+require('./src/routes/crud/evolution/createEvolution')(app)
+require('./src/routes/crud/evolution/updateEvolution')(app)
+require('./src/routes/crud/evolution/findAllEvolutions')(app)
+require('./src/routes/crud/evolution/findEvolutionByPk')(app)
+require('./src/routes/crud/evolution/deleteEvolution')(app)
 
-require('./src/routes/login')(app)
+require('./src/routes/public/login')(app)
+require('./src/routes/public/getPokemonEvolutions')(app)
 
 app.use(({res}) => {
     const message = `Resource does not exist ! Please try another URL.`

@@ -1,5 +1,5 @@
-const { Form } = require('./../../db/sequelize')
-const auth = require('./../../auth/auth')
+const { Form } = require('./../../../db/sequelize')
+const auth = require('./../../../auth/auth')
 
 module.exports = (app) => {
     app.delete('/api/form/:id', auth, (req, res) => {

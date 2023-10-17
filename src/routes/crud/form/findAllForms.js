@@ -1,7 +1,7 @@
-const { Form, Pokemon } = require('../../db/sequelize')
+const { Form, Pokemon } = require('../../../db/sequelize')
 const { Op } = require('sequelize')
 const allowedForms = ['normal', 'alolan', 'galarian', 'hisuian', 'paldean']
-const auth = require('./../../auth/auth')
+const auth = require('./../../../auth/auth')
 
 module.exports = (app) => {
     app.get('/api/form', auth, (req, res) => {
@@ -58,7 +58,7 @@ module.exports = (app) => {
         Promise.all(promises)
             .then(() => {
                 return  Form.findAndCountAll({
-                    attributes: ['Pokemon.pokemon_id', 'Pokemon.pokemon_name', 'form', 'base_attack', 'base_defense', 'base_stamina'],
+                    attributes: ['id', 'Pokemon.pokemon_id', 'Pokemon.pokemon_name', 'form', 'base_attack', 'base_defense', 'base_stamina'],
                     include: {
                         model: Pokemon,
                         attributes: [],
