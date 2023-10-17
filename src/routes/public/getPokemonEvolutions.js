@@ -62,8 +62,9 @@ module.exports = (app) => {
                         return res.json(results)
                     })
             })
-            .catch(error => {
-                console.error('unhandled error: ', error.message, error.stack)
+            .catch((error) => {
+                const message = `Couldn't retrieve data, please try again in a few minutes.`
+                res.status(500).json({ message, data: error })
             })
     })
 }

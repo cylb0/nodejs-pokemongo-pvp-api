@@ -28,6 +28,7 @@ app.get('/', (req, res) => {
     res.send(readmeHTML)
 })
 
+// CRUD ROUTES
 require('./src/routes/crud/pokemon/findAllPokemons')(app)
 require('./src/routes/crud/pokemon/findPokemonByPk')(app)
 require('./src/routes/crud/pokemon/createPokemon')(app)
@@ -46,8 +47,10 @@ require('./src/routes/crud/evolution/findAllEvolutions')(app)
 require('./src/routes/crud/evolution/findEvolutionByPk')(app)
 require('./src/routes/crud/evolution/deleteEvolution')(app)
 
+// PUBLIC ROUTES
 require('./src/routes/public/login')(app)
 require('./src/routes/public/getPokemonEvolutions')(app)
+require('./src/routes/public/getPokemonStats')(app)
 
 app.use(({res}) => {
     const message = `Resource does not exist ! Please try another URL.`
