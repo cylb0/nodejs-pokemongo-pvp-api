@@ -10,7 +10,7 @@ const sequelize = require('./src/db/sequelize')
 const cors = require('cors')
 
 const app = express()
-const port = process.env.PORT ||3000
+const port = process.env.PORT || 3001
 
 const readmePath = __dirname + '/README.md'
 const readmeContent = fs.readFileSync(readmePath, 'utf-8')
