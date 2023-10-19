@@ -109,7 +109,7 @@ export default function Pokemon(props: Props) {
     }
 
     return (
-        <>
+        <div>
             {
                 error && <p>{error}</p>
             }
@@ -175,6 +175,6 @@ export default function Pokemon(props: Props) {
                     </dialog>
                 ) 
             }
-        </>
+        </div>
     )
 }
