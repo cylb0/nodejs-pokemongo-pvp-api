@@ -1,7 +1,6 @@
 import Dashboard from "@/components/Dashboard"
-import Nav from "@/components/Nav"
 import useUser from "@/hooks/useUser"
-import Layout from "@/components/Layout"
+import style from "@/styles/index.module.css"
 
 export default function Home() {
     const [username] = useUser()
@@ -10,7 +9,7 @@ export default function Home() {
             {
               username ? (
                 <>
-                  <h2>Hello {username}</h2>
+                  <h2 className={style.hello}>Hello {username}</h2>
                   <Dashboard />
                 </>
               ) : (

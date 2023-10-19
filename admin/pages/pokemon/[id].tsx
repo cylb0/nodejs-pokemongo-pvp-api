@@ -2,7 +2,6 @@ import Pokemon from "@/components/Pokemon"
 import Nav from "@/components/Nav"
 import { GetServerSideProps } from "next"
 import { useRouter } from "next/router"
-import style from "@/styles/pokemonpage.module.css"
 
 export default function PokemonPage() {
     const router = useRouter()
@@ -18,17 +17,4 @@ export default function PokemonPage() {
             }
         </div>
     )
-}
-
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-    const username = req.cookies.username
-
-    if (!username) {
-        res.writeHead(302, { Location: "/login" })
-        res.end()
-    }
-
-    return {
-        props: {}
-    }
 }
