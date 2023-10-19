@@ -4,7 +4,6 @@ import Cookies from 'js-cookie'
 import Variant from './Variant'
 import Form from '@/interfaces/Form'
 import style from '@/styles/pokemon.module.css'
-import Image from 'next/image'
 import { useRouter } from 'next/router'
 
 interface Props {
@@ -30,7 +29,6 @@ export default function Pokemon(props: Props) {
 
     // Fetch pokemon data
     useEffect(() => {
-        console.log('fetching pokemon')
         axios.get(`http://localhost:3001/api/pokemon/${props.pokemon_id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
@@ -50,7 +48,6 @@ export default function Pokemon(props: Props) {
 
     // Fetch forms as soon as pokemon is retrieved
     useEffect(() => {
-        console.log('fetching forms')
         if (pokemon !== null) {
             axios
                 .get(`http://localhost:3001/api/form?id=${pokemon.pokemon_id}`, {
@@ -70,7 +67,6 @@ export default function Pokemon(props: Props) {
     // Update pokemon   
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
-        console.log(editedPokemon)
         axios
             .put(`http://localhost:3001/api/pokemon/${pokemon.pokemon_id}`, editedPokemon, {
                 headers: {
@@ -78,11 +74,10 @@ export default function Pokemon(props: Props) {
                 }
             })
             .then(response => {
-                console.log(response.data)
                 if (response.status === 200) {
                     setShowModal(response.data.message)               
                 } else {
-                    setError('Failed to get a response.')
+                    setError('Failed to update pokemon.')
                 }
             })
             .catch(error => {
@@ -90,7 +85,7 @@ export default function Pokemon(props: Props) {
             })
     }
 
-    const handleDeleteClick = (pokemon: Pokemon) => {
+    const handleDeleteClick = () => {
         setDeleteConfirm(true)
     }
 
@@ -140,15 +135,11 @@ export default function Pokemon(props: Props) {
                             <button type="submit">Save changes</button>
                         </form>
                         <button 
-                            type="submit"
-                            onClick={() => handleDeleteClick(pokemon)}> 
+                            onClick={() => handleDeleteClick()}> 
                             Delete
                         </button>
                     </>
                 )
-            }
-            {
-                console.log('FORMS',forms)
             }
             {
                 forms?.length ? (
