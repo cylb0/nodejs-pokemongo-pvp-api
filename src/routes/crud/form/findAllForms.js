@@ -32,7 +32,7 @@ module.exports = (app) => {
                 if (pokemon === null) {
                     return res.status(404).json({ message: `No pokemon record for that id. Please try again with another id.` })
                 }
-                whereClause.pokemonId = pokemon.id
+                whereClause.pokemonId = pokemon.pokemon_id
             })
             .catch(error => {
                 return res.status(500).json({ message: `An error occured while retrieving the pokemon.`, data: error })
