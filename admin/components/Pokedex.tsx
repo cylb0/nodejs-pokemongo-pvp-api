@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import { useEffect, useState } from 'react'
 import style from '@/styles/pokedex.module.css'
 import Image from 'next/image'
+import Link from 'next/link'
 
 interface Pokemon {
     pokemon_id: number,
@@ -85,11 +86,15 @@ export default function Pokedex() {
                                 <td>{pokemon.pokemon_name}</td>
                                 <td>{pokemon.pokemon_name_fr}</td>
                                 <td>
-                                    <Image 
-                                        src={'/icons/edit.png'}
-                                        width={24}
-                                        height={24}
-                                        alt='Icon edit'/>
+                                    <Link href={`/pokemon/${pokemon.pokemon_id}`}>
+                                        <Image 
+                                            className={style.icon}
+                                            src={'/icons/edit.png'}
+                                            width={24}
+                                            height={24}
+                                            alt='Icon edit'/>
+                                    </Link>
+                                    
                                 </td>
                                 <td>
                                     <Image 
