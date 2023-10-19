@@ -61,7 +61,7 @@ export default function Pokedex() {
     }
 
     return (
-        <>
+        <div className={style.container}>
             {
                 error && <p>{error}</p>
             }
@@ -69,7 +69,7 @@ export default function Pokedex() {
                 deleted && <p>{message}</p>
             }
             <table className={style.table}>
-                <thead>
+                <thead className={style.thead}>
                     <tr>
                         <th>#</th>
                         <th>English name</th>
@@ -125,6 +125,6 @@ export default function Pokedex() {
                     </dialog>
                 ) 
             }
-        </>
+        </div>
     )
 }

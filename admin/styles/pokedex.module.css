@@ -1,6 +1,29 @@
-.table {
+.container {
+    background-color: #070753;
     width: 50%;
     margin: auto;
+    border: 2px solid #04b0ee;
+    border-radius: 10px;
+    padding: 2rem;
+}
+.table {
+    width: 100%;
+    margin: auto;
+    position: relative;
+}
+.table::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #04b0ee, transparent);
+}
+.thead {
+    height: 2rem;
+    background-color: #070753;
+    border-collapse: collapse;
 }
 .table td {
     text-align: center;

@@ -1,4 +1,6 @@
 import React, { ReactNode } from 'react'
+import style from "@/styles/layout.module.css"
+import Nav from './Nav'
 
 interface LayoutProps {
     children: ReactNode
@@ -7,7 +9,8 @@ interface LayoutProps {
 export default function Layout({children}: LayoutProps) {
     return (
         <div>
-            <main>{children}</main>
+            <Nav />
+            <main className={style.container}>{children}</main>
         </div>
     )
 }

@@ -1,5 +1,5 @@
 import Login from "@/components/Login"
-import Nav from "@/components/Nav"
+import style from "@/styles/login.module.css"
 import useUser from "@/hooks/useUser"
 import { useRouter } from "next/router"
 
@@ -10,9 +10,13 @@ export default function LoginPage() {
         router.push('/')
     }
     return (
-        <>
-            <Nav />
+        <div style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "50vh"
+        }}>
             <Login />
-        </>
+        </div>
     )
 }
