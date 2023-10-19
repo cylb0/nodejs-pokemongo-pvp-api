@@ -1,0 +1,10 @@
+.table {
+    width: 50%;
+    margin: auto;
+}
+.table td {
+    text-align: center;
+}
+.icon:hover {
+    transform: scale(1.1);
+}

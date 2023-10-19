@@ -9,7 +9,10 @@ export default function Home() {
             <Nav />
             {
               username ? (
-                <Dashboard />
+                <>
+                  <h2>Hello {username}</h2>
+                  <Dashboard />
+                </>
               ) : (
                 <p>Please log in</p>
               )

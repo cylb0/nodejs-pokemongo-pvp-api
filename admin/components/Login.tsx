@@ -4,9 +4,9 @@ import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 
 export default function Login() {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [error, setError] = useState(null)
+    const [username, setUsername] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+    const [error, setError] = useState<string | null>(null)
     const router = useRouter()
 
     const handleSubmit = (e: FormEvent) => {
@@ -18,17 +18,18 @@ export default function Login() {
         })
         .then(response => {
             if (response.status === 200) {
-                Cookies.set('username', response.data.data.username)
-                Cookies.set('token', response.data.token)
+                var in1Hour:number = 1/24 
+                Cookies.set('username', response.data.data.username, { expires: in1Hour })
+                Cookies.set('token', response.data.token, { expires: in1Hour })
                 router.push('/');
             } else {
-                setError(response.data.message)
+                setError('Login failed')
                 setPassword('')
                 throw new Error('Login failed')
             }
         })
         .catch(error => {
-            setError(error.message)
+            setError(error.response.data.message)
         })
     }
 

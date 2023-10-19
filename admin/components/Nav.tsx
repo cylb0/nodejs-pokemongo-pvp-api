@@ -1,11 +1,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import useUser from '@/hooks/useUser'
+import Logout from './Logout'
+import style from '@/styles/nav.module.css'
 
 export default function Nav() {
     const [username] = useUser()
     return (
-        <nav>
+        <nav className={style.navbar}>
             <Link href="/">
                 <Image 
                     src = "/images/logo.png"
@@ -17,6 +19,9 @@ export default function Nav() {
             </Link>
             {
                 !username && <Link href="/login">Login</Link>
+            }
+            {
+                username && <Logout />
             }
         </nav>
     )

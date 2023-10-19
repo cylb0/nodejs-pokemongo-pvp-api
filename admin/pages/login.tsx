@@ -6,7 +6,6 @@ import { useRouter } from "next/router"
 export default function LoginPage() {
     const router = useRouter()
     const [username] = useUser()
-    console.log('LOGIN_USEUSER',username)
     if (username) {
         router.push('/')
     }

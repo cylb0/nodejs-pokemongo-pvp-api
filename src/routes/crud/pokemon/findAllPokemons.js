@@ -26,7 +26,6 @@ module.exports = (app) => {
 
         Pokemon.findAndCountAll({
             where: whereClause,
-            limit: 10,
             order: [['pokemon_id', 'asc']],
             attributes: {
                 exclude: ['created']

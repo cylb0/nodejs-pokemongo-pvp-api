@@ -15,7 +15,7 @@ module.exports = (app) => {
 
             if (!user) {
                 const message = `This user doesn't exist.`
-                return res.status(404).json({ message  })
+                return res.status(404).json({ message })
             }
 
             bcrypt.compare(password, user.password).then(isValid => {
