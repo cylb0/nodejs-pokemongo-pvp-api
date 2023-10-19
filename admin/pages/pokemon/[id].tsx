@@ -10,7 +10,6 @@ export default function PokemonPage() {
 
     return (
         <div>
-            <Nav />
             {
                 pokemon_id !== null && 
                 <Pokemon pokemon_id={pokemon_id}/>
