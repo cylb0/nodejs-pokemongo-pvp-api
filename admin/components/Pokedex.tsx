@@ -15,6 +15,7 @@ export default function Pokedex() {
     const [error, setError] = useState<string | null>(null)
     const [message, setMessage] = useState<string | null>(null)
     const [deleted, setDeleted] = useState<boolean>(false)
+    const [deleteConfirmTarget, setDeleteConfirmTarget] = useState<Pokemon | null>(null)
     const token: string = Cookies.get('token') || ''
 
     useEffect(() => {
@@ -32,7 +33,12 @@ export default function Pokedex() {
             })
     }, [deleted])
 
-    const handleDeleteClick = async (id: number) => {
+    const handleDeleteClick = (pokemon: Pokemon) => {
+        setDeleteConfirmTarget(pokemon)
+    }
+
+    const confirmDelete = async () => {
+        const id = deleteConfirmTarget?.pokemon_id
         axios
             .delete(`http://localhost:3001/api/pokemon/${id}`, {
                 headers: {
@@ -42,10 +48,15 @@ export default function Pokedex() {
             .then(response => {
                 setMessage(response.data.message)
                 setDeleted(true)
+                setDeleteConfirmTarget(null)
             })
             .catch(error => {
                 setError(error.message)
             })
+    }
+
+    const cancelDelete = () => {
+        setDeleteConfirmTarget(null)
     }
 
     return (
@@ -87,7 +98,7 @@ export default function Pokedex() {
                                             width={24}
                                             height={24}
                                             alt='Icon delete'
-                                            onClick={() => handleDeleteClick(pokemon.pokemon_id)}
+                                            onClick={() => handleDeleteClick(pokemon)}
                                             style={{cursor: 'pointer' }}/>
                                 </td>
                             </tr>
@@ -95,6 +106,20 @@ export default function Pokedex() {
                     }
                 </tbody>
             </table>
+
+            {
+                deleteConfirmTarget !== null && (
+                    <dialog open className={style.dialog}>
+                        <div>
+                            <h2>Are you sure you wan't to delete #{deleteConfirmTarget.pokemon_id} {deleteConfirmTarget.pokemon_name} ?</h2>
+                            <form method="dialog">
+                                <button onClick={confirmDelete}>Delete</button>
+                                <button onClick={cancelDelete}>Cancel</button>
+                            </form>
+                        </div>
+                    </dialog>
+                ) 
+            }
         </>
     )
 }
