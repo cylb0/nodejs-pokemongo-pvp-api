@@ -1,0 +1,45 @@
+.variantcard {
+    border: 1px solid #04b0ee;
+    border-radius: 10px;
+    padding: 1rem;
+}
+.inputelement {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin: 5px auto;
+    gap: 1rem;
+}
+.inputelement input {
+    width: auto;
+    padding-left: 10px;
+    height: 1rem;
+    background-color: black;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+.inputelement input:focus {
+    box-shadow: 0 0 10px white;
+}
+.button {
+    width: auto;
+    height: 2rem;
+    margin-top: 1rem;
+    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.2));
+    border: 1px solid white;
+    border-radius: 10px;
+}
+.button:hover {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0.2));
+    transform: translateY(-1px);
+    box-shadow: 0 0 10px white;
+}
+.dialog {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 40%;
+    border: 1px solid #04b0ee;
+    border-radius: 10px;
+    background-color: #070753;
+}

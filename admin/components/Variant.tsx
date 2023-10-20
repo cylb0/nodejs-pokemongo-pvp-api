@@ -4,10 +4,13 @@ import { FormEvent, useState } from 'react'
 import axios from "axios"
 import Cookies from 'js-cookie'
 import { useRouter } from "next/router"
-import { edit } from "helpers"
+import Image from 'next/image'
 
 export default function Variant(props: Form) {
-    const [editedForm, setEditedForm] = useState({})
+    const [form, setForm] = useState<string>(props.form)
+    const [baseAtk, setBaseAtk] = useState<number>(props.base_attack)
+    const [baseDef, setBaseDef] = useState<number>(props.base_defense)
+    const [baseSta, setBaseSta] = useState<number>(props.base_stamina)
     const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false)
     const [showModal, setShowModal] = useState<string>('')
     const [error, setError] = useState<string | null>(null)
@@ -39,7 +42,7 @@ export default function Variant(props: Form) {
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
-        console.log(editedForm)
+        const editedForm = {form: form, base_attack: baseAtk, base_defense: baseDef, base_stamina: baseSta}
         axios
             .put(`http://localhost:3001/api/form/${props.id}`, editedForm, {
                 headers: {
@@ -48,7 +51,6 @@ export default function Variant(props: Form) {
             })
             .then(response => {
                 if (response.status === 200) {
-                    console.log(response.data.message)
                     setShowModal(response.data.message)               
                 } else {
                     setError('Failed to update form.')
@@ -60,47 +62,53 @@ export default function Variant(props: Form) {
     }
 
     return (
-        <>
+        <div className={style.variantcard}>
             {
                 error && <p>{error}</p>
             }
             <form onSubmit={handleSubmit}>
-                <h2>
+                <div className={style.inputelement}>
+                    <label>Form</label>
                     <input 
                         type="text"
-                        placeholder={props.form}
-                        onChange={(e) => setEditedForm({...editedForm, form: e.target.value})} /> form
-                </h2>
-                <p>Base stats:</p>
-                <p>Attack: 
-                    <b><span>
-                        <input 
-                            type="number"
-                            min={1}
-                            placeholder={props.base_attack.toString()}
-                            onChange={(e) => setEditedForm({...editedForm, base_attack: e.target.value})} /> 
-                    </span></b> |
-                    Defense :<b><span>
-                        <input 
-                            type="number"
-                            min={1}
-                            placeholder={props.base_defense.toString()}
-                            onChange={(e) => setEditedForm({...editedForm, base_defense: e.target.value})} />
-                    </span></b> |
-                    Stamina :<b><span>
-                        <input 
-                            type="number"
-                            min={1}
-                            placeholder={props.base_stamina.toString()}
-                            onChange={(e) => setEditedForm({...editedForm, base_stamina: e.target.value})} />
-                    </span></b>
-                </p>
-                <button type="submit">Save changes</button>
+                        value={form}
+                        onChange={(e) => setForm(e.target.value)} />
+                </div>
+                <div className={style.inputelement}>
+                    <label>Base attack</label>
+                    <input
+                        type="number"
+                        min={1}
+                        value={baseAtk}
+                        onChange={(e) => setBaseAtk(e.target.value)} />
+                </div>
+                <div className={style.inputelement}>
+                    <label>Base defense</label>
+                    <input
+                        type="number"
+                        min={1}
+                        value={baseDef}
+                        onChange={(e) => setBaseDef(e.target.value)} />
+                </div>
+                <div className={style.inputelement}>
+                    <label>Base stamina</label>
+                    <input
+                        type="number"
+                        min={1}
+                        value={baseSta}
+                        onChange={(e) => setBaseSta(e.target.value)} />
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'center', margin: '1rem', gap: '1rem' }}>
+                    <button className={style.button} type="submit">Save changes</button>
+                </div>
             </form>
-            <button 
-                onClick={() => handleDeleteClick()}> 
-                Delete
-            </button>
+            <Image
+                className={style.icon}
+                src={'/icons/delete.png'}
+                width={24}
+                height={24}
+                alt='Delete icon'
+                onClick={() => handleDeleteClick()} />            
 
             {
                 showModal !== '' && (
@@ -108,7 +116,9 @@ export default function Variant(props: Form) {
                         <div>
                             <h2>{showModal}</h2>
                             <form method="dialog">
-                                <button onClick={() => router.reload()}>OK</button>
+                                <button 
+                                    className={style.button} 
+                                    onClick={() => router.reload()}>OK</button>
                             </form>
                         </div>
                     </dialog>
@@ -121,13 +131,17 @@ export default function Variant(props: Form) {
                         <div>
                             <h2>Are you sure you wan't to delete #{props.pokemon_id} {props.pokemon_name} {props.form} form ?</h2>
                             <form method="dialog">
-                                <button onClick={confirmDelete}>Delete</button>
-                                <button onClick={cancelDelete}>Cancel</button>
+                                <button 
+                                    className={style.button} 
+                                    onClick={confirmDelete}>Delete</button>
+                                <button 
+                                    className={style.button} 
+                                    onClick={cancelDelete}>Cancel</button>
                             </form>
                         </div>
                     </dialog>
                 ) 
             }
-        </>
+        </div>
     )
 }

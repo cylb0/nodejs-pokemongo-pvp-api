@@ -1,21 +1,23 @@
+import { GetServerSideProps } from "next";
 import Dashboard from "@/components/Dashboard"
-import useUser from "@/hooks/useUser"
-import style from "@/styles/index.module.css"
+
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const username = req.cookies.username;
+
+  if (!username) {
+      res.writeHead(302, { Location: "/login" });
+      res.end();
+  }
+
+  return {
+      props: {}
+  };
+}
 
 export default function Home() {
-    const [username] = useUser()
     return (
         <>
-            {
-              username ? (
-                <>
-                  <h2 className={style.hello}>Hello {username}</h2>
-                  <Dashboard />
-                </>
-              ) : (
-                <p>Please log in</p>
-              )
-            }
+          <Dashboard />
         </>
     )
 }

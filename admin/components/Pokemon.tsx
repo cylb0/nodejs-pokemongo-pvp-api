@@ -5,6 +5,7 @@ import Variant from './Variant'
 import Form from '@/interfaces/Form'
 import style from '@/styles/pokemon.module.css'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 
 interface Props {
     pokemon_id: number | null
@@ -115,40 +116,52 @@ export default function Pokemon(props: Props) {
             }
             {
                 pokemon !== null && (
-                    <>
-                        <h2>#{pokemon.pokemon_id} {pokemon.pokemon_name}</h2>
+                    <div className={style.pokemoncard}>
+                        <h2 style={{ textAlign: 'center' }}>#{pokemon.pokemon_id} {pokemon.pokemon_name}</h2>
                         <form onSubmit={handleSubmit}>
-                            <div>
+                            <div className={style.inputelement}>
                                 <label>Name</label>
                                 <input
                                     placeholder={pokemon.pokemon_name} 
                                     type="text" 
                                     onChange={(e) => setEditedPokemon({...editedPokemon, pokemon_name: e.target.value})} />
                             </div>
-                            <div>
+                            <div className={style.inputelement}>
                                 <label>French name</label>
                                 <input
                                     placeholder={pokemon.pokemon_name_fr} 
                                     type="text"
                                     onChange={(e) => setEditedPokemon({...editedPokemon, pokemon_name_fr: e.target.value})} />
                             </div>
-                            <button type="submit">Save changes</button>
+                            <div style={{ display: 'flex', justifyContent: 'center', margin: '1rem', gap: '1rem' }}>
+                                <button className={style.button} type="submit">Save changes</button>
+                            </div>
                         </form>
-                        <button 
-                            onClick={() => handleDeleteClick()}> 
-                            Delete
-                        </button>
-                    </>
+                        <Image
+                            className={style.icon}
+                            src={'/icons/delete.png'}
+                            width={24}
+                            height={24}
+                            alt='Delete icon'
+                            onClick={() => handleDeleteClick()} />
+                    </div>
                 )
             }
             {
-                forms?.length ? (
-                    forms.map((form, index) => (
-                        <Variant key={index} {...form} />
-                    ))
-                ) : (
-                    <p>No variants</p>
-                )
+            <div className={style.variants}>
+                <h2 style={{ textAlign: 'center' }}>Variants</h2>
+                {
+                    forms?.length ? (
+                        forms.map((form, index) => (
+                            <div key={index} style={{ marginBottom: "1rem" }}>
+                                <Variant key={index} {...form} />
+                            </div>
+                        ))
+                    ) : (
+                        <p>No variants</p>
+                    )
+                }
+            </div>
             }
             {
                 showModal !== '' && (
@@ -156,7 +169,11 @@ export default function Pokemon(props: Props) {
                         <div>
                             <h2>{showModal}</h2>
                             <form method="dialog">
-                                <button onClick={() => window.location.reload()}>OK</button>
+                                <button
+                                    className={style.button}  
+                                    onClick={() => window.location.reload()}>
+                                        OK
+                                </button>
                             </form>
                         </div>
                     </dialog>
@@ -168,8 +185,12 @@ export default function Pokemon(props: Props) {
                         <div>
                             <h2>Are you sure you wan't to delete #{pokemon.pokemon_id} {pokemon.pokemon_name} ?</h2>
                             <form method="dialog">
-                                <button onClick={confirmDelete}>Delete</button>
-                                <button onClick={cancelDelete}>Cancel</button>
+                                <button 
+                                    className={style.button}
+                                    onClick={confirmDelete}>Delete</button>
+                                <button 
+                                    className={style.button}
+                                    onClick={cancelDelete}>Cancel</button>
                             </form>
                         </div>
                     </dialog>
