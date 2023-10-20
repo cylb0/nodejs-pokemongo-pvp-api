@@ -1,0 +1,17 @@
+.container {
+    background-color: #070753;
+    width: 50%;
+    margin: 3rem auto 2rem;
+    border: 2px solid #04b0ee;
+    border-radius: 10px;
+    padding: 2rem;
+}
+.error {
+    color: red;
+    font-weight: bold;
+    background-color: #ffcccc;
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}

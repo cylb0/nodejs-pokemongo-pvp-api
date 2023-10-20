@@ -109,9 +109,9 @@ export default function Pokemon(props: Props) {
     }
 
     return (
-        <div>
+        <div className={style.container}>
             {
-                error && <p>{error}</p>
+                error && <p className={style.error}>{error}</p>
             }
             {
                 pokemon !== null && (
