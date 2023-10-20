@@ -33,11 +33,11 @@ module.exports = ( sequelize, DataTypes ) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             validate: {
-                isInt: { msg: 'base_attack must be an integer.' },
-                notNull: { msg: 'base_attack is required.' },
+                isInt: { msg: 'Attack stat must be an integer.' },
+                notNull: { msg: 'Attack stat is required.' },
                 min: {
                     args: [1],
-                    msg: 'base_attack must be superior or equal to one.'
+                    msg: 'Attack stat must be superior or equal to one.'
                 }
             }
         },
@@ -45,11 +45,11 @@ module.exports = ( sequelize, DataTypes ) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             validate: {
-                isInt: { msg: 'base_defense must be an integer.' },
-                notNull: { msg: 'base_defense is required.' },
+                isInt: { msg: 'Defense stat must be an integer.' },
+                notNull: { msg: 'Defense stat is required.' },
                 min: {
                     args: [1],
-                    msg: 'base_defense must be superior or equal to one.'
+                    msg: 'Defense stat must be superior or equal to one.'
                 }
             }
         },
@@ -57,11 +57,11 @@ module.exports = ( sequelize, DataTypes ) => {
             type: DataTypes.INTEGER,
             allowNull: false,
             validate: {
-                isInt: { msg: 'base_stamina must be an integer.' },
-                notNull: { msg: 'base_stamina is required.' },
+                isInt: { msg: 'Stamina stat must be an integer.' },
+                notNull: { msg: 'Stamina stat is required.' },
                 min: {
                     args: [1],
-                    msg: 'base_stamina must be superior or equal to one.'
+                    msg: 'Stamina stat must be superior or equal to one.'
                 }
             }
         },

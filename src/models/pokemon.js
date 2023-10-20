@@ -4,10 +4,10 @@ module.exports = ( sequelize, DataTypes ) => {
             type: DataTypes.INTEGER,
             primaryKey: true,
             validate: {
-                isInt: { msg: 'pokemon_id field must be an int.' },
+                isInt: { msg: 'The #ID field must be an int.' },
                 min: { 
                     args: [1],
-                    msg: 'pokemon_id field must be greater than or equal to 1.'
+                    msg: 'The #ID field must be greater than or equal to 1.'
                 }
             }
         },
@@ -15,22 +15,22 @@ module.exports = ( sequelize, DataTypes ) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                notEmpty: { msg: 'pokemon_name field cannot be empty.' },
-                notNull: { msg: 'pokemon_name field is required.' }
+                notEmpty: { msg: 'Pokemon name field cannot be empty.' },
+                notNull: { msg: 'Pokemon name field is required.' }
             },
             unique: {
-                msg: 'This pokemon_name is already used.'
+                msg: 'This pokemon name is already used.'
             }
         },
         pokemon_name_fr: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                notEmpty: { msg: 'pokemon_name_fr field cannot be empty.' },
-                notNull: { msg: 'pokemon_name_fr field is required.' }
+                notEmpty: { msg: 'French pokemon name field cannot be empty.' },
+                notNull: { msg: 'French pokemon name field is required.' }
             },
             unique: {
-                msg: 'This pokemon_name_fr is already used.'
+                msg: 'This french pokemon name is already used.'
             }
         }
     }, 
