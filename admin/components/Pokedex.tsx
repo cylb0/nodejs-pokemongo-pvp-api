@@ -15,7 +15,6 @@ export default function Pokedex() {
     const [confirmation, setConfirmation] = useState<boolean>(false)
     const [deleteConfirmTarget, setDeleteConfirmTarget] = useState<Pokemon | null>(null)
     const token: string = Cookies.get('token') || ''
-    const router = useRouter()
 
     useEffect(() => {
         axios
