@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import style from '@/styles/pokedex.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import AddPokemonForm from './AddPokemonForm'
 import Pokemon from '@/interfaces/Pokemon'
 
@@ -59,15 +58,9 @@ export default function Pokedex() {
         setDeleteConfirmTarget(null)
     }
 
-    // const handleAddClick = (pokemonId: number, pokemonName: string, pokemonNameFr: string) => {
     const handleAddClick = (newPokemon: Pokemon) => {
         setError(null)
         setMessage(null)
-        // const newPokemon: Pokemon = {
-        //     pokemon_id: pokemonId,
-        //     pokemon_name: pokemonName,
-        //     pokemon_name_fr: pokemonNameFr
-        // }
         axios
             .post('http://localhost:3001/api/pokemon', newPokemon, {
                 headers: {
