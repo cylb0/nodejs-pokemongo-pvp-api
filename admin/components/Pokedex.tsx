@@ -11,7 +11,7 @@ export default function Pokedex() {
     const [pokemons, setPokemons] = useState<Pokemon[] | null>(null)
     const [error, setError] = useState<string | null>(null)
     const [message, setMessage] = useState<string | null>(null)
-    const [confirmation, setConfirmation] = useState<boolean>(false)
+    const [showConfirmation, setShowConfirmation] = useState<boolean>(false)
     const [deleteConfirmTarget, setDeleteConfirmTarget] = useState<Pokemon | null>(null)
     const token: string = Cookies.get('token') || ''
 
@@ -28,7 +28,7 @@ export default function Pokedex() {
             .catch(error => {
                 setError(error.message)
             })
-    }, [confirmation])
+    }, [showConfirmation])
 
     const handleDeleteClick = (pokemon: Pokemon) => {
         setError(null)
@@ -46,7 +46,7 @@ export default function Pokedex() {
             })
             .then(response => {
                 setMessage(response.data.message)
-                setConfirmation(true)
+                setShowConfirmation(true)
                 setDeleteConfirmTarget(null)
             })
             .catch(error => {
@@ -69,7 +69,7 @@ export default function Pokedex() {
             })
             .then(response => {
                 setMessage(response.data.message)
-                setConfirmation(true)
+                setShowConfirmation(true)
             })
             .catch(error => {
                 setError(error.response.data.message)
@@ -145,7 +145,7 @@ export default function Pokedex() {
             }
 
             {
-                confirmation && (
+                showConfirmation && (
                     <dialog open className={style.dialog}>
                         <div>
                             <h2>{message}</h2>
@@ -153,7 +153,7 @@ export default function Pokedex() {
                                 <button 
                                     className={style.button} 
                                     onClick={(e) => {
-                                        setConfirmation(false)
+                                        setShowConfirmation(false)
                                     }}>OK</button>
                             </form>
                         </div>
