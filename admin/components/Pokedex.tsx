@@ -59,14 +59,15 @@ export default function Pokedex() {
         setDeleteConfirmTarget(null)
     }
 
-    const handleAddClick = (pokemonId: number, pokemonName: string, pokemonNameFr: string) => {
+    // const handleAddClick = (pokemonId: number, pokemonName: string, pokemonNameFr: string) => {
+    const handleAddClick = (newPokemon: Pokemon) => {
         setError(null)
         setMessage(null)
-        const newPokemon: Pokemon = {
-            pokemon_id: pokemonId,
-            pokemon_name: pokemonName,
-            pokemon_name_fr: pokemonNameFr
-        }
+        // const newPokemon: Pokemon = {
+        //     pokemon_id: pokemonId,
+        //     pokemon_name: pokemonName,
+        //     pokemon_name_fr: pokemonNameFr
+        // }
         axios
             .post('http://localhost:3001/api/pokemon', newPokemon, {
                 headers: {

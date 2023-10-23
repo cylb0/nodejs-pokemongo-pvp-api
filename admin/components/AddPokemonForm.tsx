@@ -1,23 +1,23 @@
 import { useState } from 'react'
 import style from '@/styles/pokedex.module.css'
 import Image from 'next/image'
+import Pokemon from '@/interfaces/Pokemon'
 
 interface AddPokemonFormProps {
-    onAddClick: (pokemonId: number, pokemonName: string, pokemonNameFr: string) => void
+    onAddClick: (newPokemon: Pokemon) => void
 }
 
 export default function AddPokemonForm({ onAddClick }: AddPokemonFormProps) {
-    const [pokemonId, setPokemonId] = useState<number>(0)
-    const [pokemonName, setPokemonName] = useState<string>('')
-    const [pokemonNameFr, setPokemonNameFr] = useState<string>('')
+    const [newPokemon, setNewPokemon] = useState<Pokemon>({
+        pokemon_id: 0,
+        pokemon_name: '',
+        pokemon_name_fr: ''
+    })
 
     const handleAddClick = () => {
-        onAddClick(pokemonId, pokemonName, pokemonNameFr)
-        setPokemonId(0)
-        setPokemonName('')
-        setPokemonNameFr('')
+        onAddClick(newPokemon)
     }
-    
+
     return (
         <tr>
             <td>
@@ -26,22 +26,22 @@ export default function AddPokemonForm({ onAddClick }: AddPokemonFormProps) {
                     type="number"
                     min={1}
                     max={999}
-                    value={pokemonId?.toString() || ''}
-                    onChange={(e) => setPokemonId(parseInt(e.target.value))} />
+                    value={newPokemon.pokemon_id?.toString()}
+                    onChange={(e) => setNewPokemon({ ...newPokemon, pokemon_id: parseInt(e.target.value) })} />
             </td>
             <td>
                 <input
                     className={style.input}
                     type="text"
-                    value={pokemonName}
-                    onChange={(e) => setPokemonName(e.target.value)} />
+                    value={newPokemon.pokemon_name}
+                    onChange={(e) => setNewPokemon({ ...newPokemon, pokemon_name: e.target.value })} />
             </td>
             <td>
                 <input
                     className={style.input}
                     type="text"
-                    value={pokemonNameFr}
-                    onChange={(e) => setPokemonNameFr(e.target.value)} />
+                    value={newPokemon.pokemon_name_fr}
+                    onChange={(e) => setNewPokemon({ ...newPokemon, pokemon_name_fr: e.target.value })} />
             </td>
             <td>
                 <Image 
