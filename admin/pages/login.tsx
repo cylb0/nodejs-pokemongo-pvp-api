@@ -1,6 +1,6 @@
 import Login from "@/components/Login"
 import style from "@/styles/login.module.css"
-import useUser from "@/hooks/useUser"
+import { useUser } from "@/hooks/useUser"
 import { useRouter } from "next/router"
 
 export default function LoginPage() {

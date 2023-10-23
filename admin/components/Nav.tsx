@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import useUser from '@/hooks/useUser'
+import { useUser } from '@/hooks/useUser'
 import Logout from './Logout'
 import style from '@/styles/nav.module.css'
 
