@@ -27,21 +27,33 @@ export default function AddPokemonForm({ onAddClick }: AddPokemonFormProps) {
                     min={1}
                     max={999}
                     value={newPokemon.pokemon_id?.toString()}
-                    onChange={(e) => setNewPokemon({ ...newPokemon, pokemon_id: parseInt(e.target.value) })} />
+                    onChange={(e) => setNewPokemon(prevState => {
+                        return {
+                            ... prevState, pokemon_id: parseInt(e.target.value)
+                        }
+                    })} />
             </td>
             <td>
                 <input
                     className={style.input}
                     type="text"
                     value={newPokemon.pokemon_name}
-                    onChange={(e) => setNewPokemon({ ...newPokemon, pokemon_name: e.target.value })} />
+                    onChange={(e) => setNewPokemon(prevState => {
+                        return {
+                            ... prevState, pokemon_name: e.target.value
+                        }
+                    })} />
             </td>
             <td>
                 <input
                     className={style.input}
                     type="text"
                     value={newPokemon.pokemon_name_fr}
-                    onChange={(e) => setNewPokemon({ ...newPokemon, pokemon_name_fr: e.target.value })} />
+                    onChange={(e) => setNewPokemon(prevState => {
+                        return {
+                            ... prevState, pokemon_name_fr: e.target.value
+                        }
+                    })} />
             </td>
             <td>
                 <Image 
