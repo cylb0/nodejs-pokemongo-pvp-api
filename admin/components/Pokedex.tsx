@@ -5,21 +5,14 @@ import style from '@/styles/pokedex.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-
-interface Pokemon {
-    pokemon_id: number,
-    pokemon_name: string,
-    pokemon_name_fr: string
-}
+import AddPokemonForm from './AddPokemonForm'
+import Pokemon from '@/interfaces/Pokemon'
 
 export default function Pokedex() {
     const [pokemons, setPokemons] = useState<Pokemon[] | null>(null)
     const [error, setError] = useState<string | null>(null)
     const [message, setMessage] = useState<string | null>(null)
-    const [deleted, setDeleted] = useState<boolean>(false)
-    const [pokemonId, setPokemonId] = useState<number | null>(0)
-    const [pokemonName, setPokemonName] = useState<string>('')
-    const [pokemonNameFr, setPokemonNameFr] = useState<string>('')
+    const [confirmation, setConfirmation] = useState<boolean>(false)
     const [deleteConfirmTarget, setDeleteConfirmTarget] = useState<Pokemon | null>(null)
     const token: string = Cookies.get('token') || ''
     const router = useRouter()
@@ -37,9 +30,11 @@ export default function Pokedex() {
             .catch(error => {
                 setError(error.message)
             })
-    }, [deleted])
+    }, [confirmation])
 
     const handleDeleteClick = (pokemon: Pokemon) => {
+        setError(null)
+        setMessage(null)
         setDeleteConfirmTarget(pokemon)
     }
 
@@ -53,7 +48,7 @@ export default function Pokedex() {
             })
             .then(response => {
                 setMessage(response.data.message)
-                setDeleted(true)
+                setConfirmation(true)
                 setDeleteConfirmTarget(null)
             })
             .catch(error => {
@@ -65,8 +60,10 @@ export default function Pokedex() {
         setDeleteConfirmTarget(null)
     }
 
-    const handleAddClick = () => {
-        const newPokemon = {
+    const handleAddClick = (pokemonId: number, pokemonName: string, pokemonNameFr: string) => {
+        setError(null)
+        setMessage(null)
+        const newPokemon: Pokemon = {
             pokemon_id: pokemonId,
             pokemon_name: pokemonName,
             pokemon_name_fr: pokemonNameFr
@@ -79,7 +76,7 @@ export default function Pokedex() {
             })
             .then(response => {
                 setMessage(response.data.message)
-                router.reload()
+                setConfirmation(true)
             })
             .catch(error => {
                 setError(error.response.data.message)
@@ -90,6 +87,9 @@ export default function Pokedex() {
         <div className={style.container}>
             {
                 error && <p className={style.error}>{error}</p>
+            }
+            {
+                message && <p className={style.message}>{message}</p>
             }
 
             <table className={style.table}>
@@ -103,41 +103,7 @@ export default function Pokedex() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>
-                            <input
-                                className={style.input}
-                                type="number"
-                                min={1}
-                                max={999}
-                                value={pokemonId?.toString() || ''}
-                                onChange={(e) => setPokemonId(parseInt(e.target.value))} />
-                        </td>
-                        <td>
-                            <input
-                                className={style.input}
-                                type="text"
-                                value={pokemonName}
-                                onChange={(e) => setPokemonName(e.target.value)} />
-                        </td>
-                        <td>
-                            <input
-                                className={style.input}
-                                type="text"
-                                value={pokemonNameFr}
-                                onChange={(e) => setPokemonNameFr(e.target.value)} />
-                        </td>
-                        <td>
-                            <Image 
-                                className={style.icon}
-                                src={'/icons/plus.png'}
-                                width={24}
-                                height={24}
-                                alt='Icon add'
-                                onClick={() => handleAddClick()}
-                                style={{cursor: 'pointer' }}/>
-                        </td>
-                    </tr>
+                    <AddPokemonForm onAddClick = {handleAddClick} />
                     {
                         pokemons && pokemons.map((pokemon) => (
                             <tr key={pokemon.pokemon_id}>
@@ -186,7 +152,7 @@ export default function Pokedex() {
             }
 
             {
-                deleted && (
+                confirmation && (
                     <dialog open className={style.dialog}>
                         <div>
                             <h2>{message}</h2>
@@ -194,8 +160,7 @@ export default function Pokedex() {
                                 <button 
                                     className={style.button} 
                                     onClick={(e) => {
-                                        setMessage(null)
-                                        setDeleted(false)
+                                        setConfirmation(false)
                                     }}>OK</button>
                             </form>
                         </div>
