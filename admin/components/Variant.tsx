@@ -72,6 +72,7 @@ export default function Variant(props: Form) {
             {
                 error && <p className={UIStyle.error}>{error}</p>
             }
+            <p>Pokemon form {props.id}</p>
             <form onSubmit={handleSubmit}>
                 <div className={formStyle.inputelement}>
                     <label>Form</label>

@@ -25,6 +25,7 @@ export default function Pokemon(props: Props) {
     const [pokemon, setPokemon] = useState<Pokemon | null>(null)
     const [editedPokemon, setEditedPokemon] = useState({})
     const [forms, setForms] = useState<Form[] | null>(null)
+    console.log('-----FORMS------', forms)
     const [error, setError] = useState<string | null>(null)
     const [message, setMessage] = useState<string | null>(null)
 
@@ -67,7 +68,7 @@ export default function Pokemon(props: Props) {
                     setError(error.response.data.message)
                 })
         }
-    }, [pokemon, token, message])
+    }, [pokemon, message])
 
     // Update pokemon   
     const handleSubmit = (e: FormEvent) => {
@@ -134,7 +135,9 @@ export default function Pokemon(props: Props) {
                 }
             })
             .then(response => {
-                setMessage(response.data.message)
+                if(response.status === 200) {
+                    setMessage(response.data.message)
+                }
             })
             .catch(error => {
                 setError(error.response.data.message)
@@ -195,9 +198,9 @@ export default function Pokemon(props: Props) {
                 }
                 {
                     forms?.length ? (
-                        forms.map((form, index) => (
-                            <div key={index} style={{ marginBottom: "1rem" }}>
-                                <Variant key={index} {...form} />
+                        forms.map((form) => (
+                            <div key={form.id} style={{ marginBottom: "1rem" }}>
+                                <Variant key={form.id} {...form} />
                             </div>
                         ))
                     ) : (

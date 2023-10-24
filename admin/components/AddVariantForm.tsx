@@ -10,7 +10,7 @@ interface AddVariantFormProps {
 }
 
 export default function AddVariantForm({ pokemonId, onAddClick }: AddVariantFormProps) {
-    const [variant, setVariant] = useState<VariantInterface>({
+    const [newVariant, setNewVariant] = useState<VariantInterface>({
         pokemonId: pokemonId,
         form: '',
         base_attack: 1,
@@ -22,7 +22,14 @@ export default function AddVariantForm({ pokemonId, onAddClick }: AddVariantForm
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault()
-        onAddClick(variant)
+        onAddClick(newVariant)
+        setNewVariant({
+            pokemonId: pokemonId,
+            form: '',
+            base_attack: 1,
+            base_defense: 1,
+            base_stamina: 1
+        })
     }
 
     return (
@@ -37,8 +44,8 @@ export default function AddVariantForm({ pokemonId, onAddClick }: AddVariantForm
                     <input 
                         className={formStyle.input}
                         type="text"
-                        value={variant.form}
-                        onChange={(e) => setVariant(prevState => ({
+                        value={newVariant.form}
+                        onChange={(e) => setNewVariant(prevState => ({
                             ...prevState,
                             form: e.target.value
                         }))} />
@@ -49,15 +56,14 @@ export default function AddVariantForm({ pokemonId, onAddClick }: AddVariantForm
                         className={formStyle.input}
                         type="number"
                         min={1}
-                        value={variant.base_attack.toString()}
+                        value={newVariant.base_attack.toString()}
                         onChange={(e) => {
                             const value = parseInt(e.target.value)
                             if (isNaN(value) || value < 1 || value > 999) {
-                                setError('Please enter a valid number between 1 and 999.')
                                 return
                             }
                             setError(null)
-                            setVariant(prevState => ({
+                            setNewVariant(prevState => ({
                                 ...prevState,
                                 base_attack: e.target.valueAsNumber
                             }))
@@ -69,15 +75,14 @@ export default function AddVariantForm({ pokemonId, onAddClick }: AddVariantForm
                         className={formStyle.input}
                         type="number"
                         min={1}
-                        value={variant.base_defense.toString()}
+                        value={newVariant.base_defense.toString()}
                         onChange={(e) => {
                             const value = parseInt(e.target.value)
                             if (isNaN(value) || value < 1 || value > 999) {
-                                setError('Please enter a valid number between 1 and 999.')
                                 return
                             }
                             setError(null)
-                            setVariant(prevState => ({
+                            setNewVariant(prevState => ({
                                 ...prevState,
                                 base_defense: e.target.valueAsNumber
                             }))
@@ -89,15 +94,14 @@ export default function AddVariantForm({ pokemonId, onAddClick }: AddVariantForm
                         className={formStyle.input}
                         type="number"
                         min={1}
-                        value={variant.base_stamina.toString()}
+                        value={newVariant.base_stamina.toString()}
                         onChange={(e) => {
                             const value = parseInt(e.target.value)
                             if (isNaN(value) || value < 1 || value > 999) {
-                                setError('Please enter a valid number between 1 and 999.')
                                 return
                             }
                             setError(null)
-                            setVariant(prevState => ({
+                            setNewVariant(prevState => ({
                                 ...prevState,
                                 base_stamina: e.target.valueAsNumber
                             }))
