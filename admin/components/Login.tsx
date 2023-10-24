@@ -2,7 +2,7 @@ import { ChangeEvent, FormEvent, useState } from 'react'
 import axios from 'axios'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
-import style from "@/styles/login.module.css"
+import formStyle from '@/styles/forms.module.css'
 
 export default function Login() {
     const [username, setUsername] = useState<string>('')
@@ -48,26 +48,28 @@ export default function Login() {
                 error && <p>{ error }</p>
             }
             <form 
-                className={style.form}
+                className={formStyle.form}
                 onSubmit={handleSubmit}>
                 
                 <h1>Login</h1>
 
-                <div className={style.input}>
+                <div className={formStyle.inputelement}>
                     <label>Username</label>
-                    <input 
+                    <input
+                        className={formStyle.input} 
                         type="text"
                         value={username}
                         onChange={handleUsernameChange} />
                 </div>
-                <div className={style.input}>
+                <div className={formStyle.inputelement}>
                     <label>Password</label>
                     <input 
+                        className={formStyle.input} 
                         type="password"
                         value={password}
                         onChange={handlePasswordChange} />
                 </div>
-                <button className={style.button} type="submit">Login</button>
+                <button className={formStyle.button} type="submit">Login</button>
             </form>
         </div>
     )

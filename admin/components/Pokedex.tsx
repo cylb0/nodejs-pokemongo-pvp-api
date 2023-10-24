@@ -1,11 +1,17 @@
-import axios from 'axios'
-import Cookies from 'js-cookie'
 import { useEffect, useState } from 'react'
-import style from '@/styles/pokedex.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
+
+import axios from 'axios'
+import Cookies from 'js-cookie'
+
 import AddPokemonForm from './AddPokemonForm'
+
 import Pokemon from '@/interfaces/Pokemon'
+
+import style from '@/styles/pokedex.module.css'
+import UIStyle from '@/styles/usermessages.module.css'
+import formStyle from '@/styles/forms.module.css'
 
 export default function Pokedex() {
     const [pokemons, setPokemons] = useState<Pokemon[] | null>(null)
@@ -37,6 +43,8 @@ export default function Pokedex() {
     }
 
     const confirmDelete = async () => {
+        setMessage(null)
+        setError(null)
         const id = deleteConfirmTarget?.pokemon_id
         axios
             .delete(`http://localhost:3001/api/pokemon/${id}`, {
@@ -46,7 +54,7 @@ export default function Pokedex() {
             })
             .then(response => {
                 setMessage(response.data.message)
-                setShowConfirmation(true)
+                // setShowConfirmation(true)
                 setDeleteConfirmTarget(null)
             })
             .catch(error => {
@@ -79,10 +87,10 @@ export default function Pokedex() {
     return (
         <div className={style.container}>
             {
-                error && <p className={style.error}>{error}</p>
+                error && <p className={UIStyle.error}>{error}</p>
             }
             {
-                message && <p className={style.message}>{message}</p>
+                message && <p className={UIStyle.message}>{message}</p>
             }
 
             <table className={style.table}>
@@ -132,12 +140,12 @@ export default function Pokedex() {
 
             {
                 deleteConfirmTarget !== null && (
-                    <dialog open className={style.dialog}>
+                    <dialog open className={UIStyle.dialog}>
                         <div>
                             <h2>Are you sure you wan't to delete #{deleteConfirmTarget.pokemon_id} {deleteConfirmTarget.pokemon_name} ?</h2>
                             <form method="dialog">
-                                <button className={style.button} onClick={confirmDelete}>Delete</button>
-                                <button className={style.button} onClick={cancelDelete}>Cancel</button>
+                                <button className={`${formStyle.button} ${formStyle.delete}`} onClick={confirmDelete}>Delete</button>
+                                <button className={formStyle.button} onClick={cancelDelete}>Cancel</button>
                             </form>
                         </div>
                     </dialog>
@@ -146,12 +154,12 @@ export default function Pokedex() {
 
             {
                 showConfirmation && (
-                    <dialog open className={style.dialog}>
+                    <dialog open className={UIStyle.dialog}>
                         <div>
                             <h2>{message}</h2>
                             <form method="dialog">
                                 <button 
-                                    className={style.button} 
+                                    className={formStyle.button} 
                                     onClick={(e) => {
                                         setShowConfirmation(false)
                                     }}>OK</button>

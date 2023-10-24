@@ -1,0 +1,31 @@
+.error {
+    color: red;
+    font-weight: bold;
+    background-color: #ffcccc;
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+.message {
+    color: green;
+    font-weight: bold;
+    background-color: #ccffcc;
+    border: 1px solid green;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+.dialog {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    border: 1px solid #04b0ee;
+    border-radius: 10px;
+    background-color: #070753;
+}

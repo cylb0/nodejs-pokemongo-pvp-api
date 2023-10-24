@@ -31,64 +31,6 @@
 .icon:hover {
     transform: scale(1.1);
 }
-.dialog {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-}
-.input {
-    text-align: center;
-    width: auto;
-    padding-left: 10px;
-    height: 1rem;
-    background-color: black;
-    border: 1px solid white;
-    border-radius: 5px;
-}
-.input:focus {
-    box-shadow: 0 0 10px white;
-}
-.error {
-    color: red;
-    font-weight: bold;
-    background-color: #ffcccc;
-    border: 1px solid #ff0000;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px 0;
-}
-.message {
-    color: green;
-    font-weight: bold;
-    background-color: #ccffcc;
-    border: 1px solid green;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px 0;
-}
-.button {
-    width: auto;
-    height: 2rem;
-    margin-top: 1rem;
-    background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.2));
-    border: 1px solid white;
-    border-radius: 10px;
-}
-.button:hover {
-    background: linear-gradient(to bottom, rgba(255,255,255,0.5), rgba(255,255,255,0.2));
-    transform: translateY(-1px);
-    box-shadow: 0 0 10px white;
-}
-.dialog {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    top: 40%;
-    border: 1px solid #04b0ee;
-    border-radius: 10px;
-    background-color: #070753;
-}
 
 @media screen and (max-width: 768px)  {
     .container {

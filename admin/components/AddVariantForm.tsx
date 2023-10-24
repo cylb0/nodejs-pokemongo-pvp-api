@@ -1,4 +1,5 @@
-import style from '@/styles/variant.module.css'
+import messagesStyle from '@/styles/usermessages.module.css'
+import formStyle from '@/styles/forms.module.css'
 import Pokemon from '@/interfaces/Pokemon'
 import VariantInterface from '@/interfaces/Variant'
 import { FormEvent, useState } from 'react'
@@ -28,12 +29,13 @@ export default function AddVariantForm({ pokemonId, onAddClick }: AddVariantForm
         <>
             <h2>Add new Variant</h2>
             {
-                error && <p>{error}</p>
+                error && <p className={messagesStyle.error}>{error}</p>
             }
             <form onSubmit={handleSubmit}>
-                <div className={style.inputelement}>
+                <div className={formStyle.inputelement}>
                     <label>Form</label>
                     <input 
+                        className={formStyle.input}
                         type="text"
                         value={variant.form}
                         onChange={(e) => setVariant(prevState => ({
@@ -41,9 +43,10 @@ export default function AddVariantForm({ pokemonId, onAddClick }: AddVariantForm
                             form: e.target.value
                         }))} />
                 </div>
-                <div className={style.inputelement}>
+                <div className={formStyle.inputelement}>
                     <label>Base attack</label>
                     <input
+                        className={formStyle.input}
                         type="number"
                         min={1}
                         value={variant.base_attack.toString()}
@@ -60,9 +63,10 @@ export default function AddVariantForm({ pokemonId, onAddClick }: AddVariantForm
                             }))
                         }} />  
                 </div>
-                <div className={style.inputelement}>
+                <div className={formStyle.inputelement}>
                     <label>Base defense</label>
                     <input
+                        className={formStyle.input}
                         type="number"
                         min={1}
                         value={variant.base_defense.toString()}
@@ -79,9 +83,10 @@ export default function AddVariantForm({ pokemonId, onAddClick }: AddVariantForm
                             }))
                         }} />               
                 </div>
-                <div className={style.inputelement}>
+                <div className={formStyle.inputelement}>
                     <label>Base stamina</label>
                     <input
+                        className={formStyle.input}
                         type="number"
                         min={1}
                         value={variant.base_stamina.toString()}
@@ -99,7 +104,7 @@ export default function AddVariantForm({ pokemonId, onAddClick }: AddVariantForm
                         }} />   
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '1rem', gap: '1rem' }}>
-                    <button className={style.button} type="submit">Add new variant</button>
+                    <button className={`${formStyle.button} ${formStyle.add}`} type="submit">Add new variant</button>
                 </div>
             </form>
         </>

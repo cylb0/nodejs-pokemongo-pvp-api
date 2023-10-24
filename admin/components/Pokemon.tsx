@@ -1,14 +1,21 @@
 import { FormEvent, useEffect, useState } from 'react'
+import Image from 'next/image'
+import { useRouter } from 'next/router'
+
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import Variant from './Variant'
+
 import Form from '@/interfaces/Form'
-import style from '@/styles/pokemon.module.css'
-import { useRouter } from 'next/router'
-import Image from 'next/image'
 import Pokemon from '@/interfaces/Pokemon'
-import AddVariantForm from './AddVariantForm'
 import VariantInterface from '@/interfaces/Variant'
+
+import Variant from './Variant'
+import AddVariantForm from './AddVariantForm'
+
+import style from '@/styles/pokemon.module.css'
+import UIStyle from '@/styles/usermessages.module.css'
+import formStyle from '@/styles/forms.module.css'
+
 
 interface Props {
     pokemon_id: number | null
@@ -137,32 +144,34 @@ export default function Pokemon(props: Props) {
     return (
         <div className={style.container}>
             {
-                error && <p className={style.error}>{error}</p>
+                error && <p className={UIStyle.error}>{error}</p>
             }
             {
-                message && <p className={style.message}>{message}</p>
+                message && <p className={UIStyle.message}>{message}</p>
             }
             {
                 pokemon !== null && (
                     <div className={style.pokemoncard}>
                         <h2 style={{ textAlign: 'center' }}>#{pokemon.pokemon_id} {pokemon.pokemon_name}</h2>
                         <form onSubmit={handleSubmit}>
-                            <div className={style.inputelement}>
+                            <div className={formStyle.inputelement}>
                                 <label>Name</label>
                                 <input
+                                    className={formStyle.input}
                                     placeholder={pokemon.pokemon_name} 
                                     type="text" 
                                     onChange={(e) => setEditedPokemon({...editedPokemon, pokemon_name: e.target.value})} />
                             </div>
-                            <div className={style.inputelement}>
+                            <div className={formStyle.inputelement}>
                                 <label>French name</label>
                                 <input
+                                    className={formStyle.input}
                                     placeholder={pokemon.pokemon_name_fr} 
                                     type="text"
                                     onChange={(e) => setEditedPokemon({...editedPokemon, pokemon_name_fr: e.target.value})} />
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'center', margin: '1rem', gap: '1rem' }}>
-                                <button className={style.button} type="submit">Save changes</button>
+                                <button className={`${formStyle.button} ${formStyle.edit}`} type="submit">Save changes</button>
                             </div>
                         </form>
                         <Image
@@ -199,15 +208,15 @@ export default function Pokemon(props: Props) {
             }
             {
                 pokemon && deleteConfirm && (
-                    <dialog open className={style.dialog}>
+                    <dialog open className={UIStyle.dialog}>
                         <div>
                             <h2>Are you sure you wan't to delete #{pokemon.pokemon_id} {pokemon.pokemon_name} ?</h2>
                             <form method="dialog">
                                 <button 
-                                    className={style.button}
+                                    className={`${formStyle.button} ${formStyle.delete}`}
                                     onClick={confirmDelete}>Delete</button>
                                 <button 
-                                    className={style.button}
+                                    className={formStyle.button}
                                     onClick={cancelDelete}>Cancel</button>
                             </form>
                         </div>

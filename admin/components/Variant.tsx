@@ -1,10 +1,16 @@
-import Form from "@/interfaces/Form"
-import style from '@/styles/variant.module.css'
 import { FormEvent, useState } from 'react'
+import Image from 'next/image'
+import { useRouter } from "next/router"
+
 import axios from "axios"
 import Cookies from 'js-cookie'
-import { useRouter } from "next/router"
-import Image from 'next/image'
+
+import Form from "@/interfaces/Form"
+
+import style from '@/styles/variant.module.css'
+import formStyle from '@/styles/forms.module.css'
+import UIStyle from '@/styles/usermessages.module.css'
+
 
 export default function Variant(props: Form) {
     const [form, setForm] = useState<string>(props.form)
@@ -64,42 +70,70 @@ export default function Variant(props: Form) {
     return (
         <div className={style.variantcard}>
             {
-                error && <p>{error}</p>
+                error && <p className={UIStyle.error}>{error}</p>
             }
             <form onSubmit={handleSubmit}>
-                <div className={style.inputelement}>
+                <div className={formStyle.inputelement}>
                     <label>Form</label>
-                    <input 
+                    <input
+                        className={formStyle.input} 
                         type="text"
                         value={form}
                         onChange={(e) => setForm(e.target.value)} />
                 </div>
-                <div className={style.inputelement}>
+                <div className={formStyle.inputelement}>
                     <label>Base attack</label>
                     <input
+                        className={formStyle.input} 
                         type="number"
-                        min={1}
-                        value={baseAtk}
-                        onChange={(e) => setBaseAtk(e.target.value)} />
+                        min={0}
+                        value={baseAtk.toString()}
+                        onChange={(e) => {
+                            const value = parseInt(e.target.value)
+                            if (isNaN(value) || value < 1 || value > 999) {
+                                setError('Please enter a valid number between 1 and 999.')
+                                return
+                            }
+                            setError(null)
+                            setBaseAtk(e.target.valueAsNumber)
+                        }} />
                 </div>
-                <div className={style.inputelement}>
+                <div className={formStyle.inputelement}>
                     <label>Base defense</label>
                     <input
+                        className={formStyle.input} 
                         type="number"
                         min={1}
-                        value={baseDef}
-                        onChange={(e) => setBaseDef(e.target.value)} />
+                        value={baseDef.toString()}
+                        onChange={(e) => {
+                            const value = parseInt(e.target.value)
+                            if (isNaN(value) || value < 1 || value > 999) {
+                                setError('Please enter a valid number between 1 and 999.')
+                                return
+                            }
+                            setError(null)
+                            setBaseDef(e.target.valueAsNumber)
+                        }} />
                 </div>
-                <div className={style.inputelement}>
+                <div className={formStyle.inputelement}>
                     <label>Base stamina</label>
                     <input
+                        className={formStyle.input} 
                         type="number"
                         min={1}
-                        value={baseSta}
-                        onChange={(e) => setBaseSta(e.target.value)} />
+                        value={baseSta.toString()}
+                        onChange={(e) => {
+                            const value = parseInt(e.target.value)
+                            if (isNaN(value) || value < 1 || value > 999) {
+                                setError('Please enter a valid number between 1 and 999.')
+                                return
+                            }
+                            setError(null)
+                            setBaseSta(e.target.valueAsNumber)
+                        }} />
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'center', margin: '1rem', gap: '1rem' }}>
-                    <button className={style.button} type="submit">Save changes</button>
+                    <button className={`${formStyle.button} ${formStyle.edit}`} type="submit">Save changes</button>
                 </div>
             </form>
             <Image
@@ -112,12 +146,12 @@ export default function Variant(props: Form) {
 
             {
                 showModal !== '' && (
-                    <dialog open className={style.dialog}>
+                    <dialog open className={UIStyle.dialog}>
                         <div>
                             <h2>{showModal}</h2>
                             <form method="dialog">
                                 <button 
-                                    className={style.button} 
+                                    className={formStyle.button} 
                                     onClick={() => router.reload()}>OK</button>
                             </form>
                         </div>
@@ -127,15 +161,15 @@ export default function Variant(props: Form) {
 
             {
                 deleteConfirm && (
-                    <dialog open className={style.dialog}>
+                    <dialog open className={UIStyle.dialog}>
                         <div>
                             <h2>Are you sure you wan't to delete #{props.pokemon_id} {props.pokemon_name} {props.form} form ?</h2>
                             <form method="dialog">
                                 <button 
-                                    className={style.button} 
+                                    className={`${formStyle.button} ${formStyle.delete}`} 
                                     onClick={confirmDelete}>Delete</button>
                                 <button 
-                                    className={style.button} 
+                                    className={formStyle.button} 
                                     onClick={cancelDelete}>Cancel</button>
                             </form>
                         </div>
