@@ -28,7 +28,7 @@ export default function Pokedex() {
             .catch(error => {
                 setError(error.message)
             })
-    }, [showConfirmation])
+    }, [showConfirmation, message])
 
     const handleDeleteClick = (pokemon: Pokemon) => {
         setError(null)
@@ -69,7 +69,7 @@ export default function Pokedex() {
             })
             .then(response => {
                 setMessage(response.data.message)
-                setShowConfirmation(true)
+                // setShowConfirmation(true)
             })
             .catch(error => {
                 setError(error.response.data.message)

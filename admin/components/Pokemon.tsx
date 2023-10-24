@@ -6,16 +6,12 @@ import Form from '@/interfaces/Form'
 import style from '@/styles/pokemon.module.css'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
+import Pokemon from '@/interfaces/Pokemon'
+import AddVariantForm from './AddVariantForm'
+import VariantInterface from '@/interfaces/Variant'
 
 interface Props {
     pokemon_id: number | null
-}
-
-interface Pokemon {
-    pokemon_id: number,
-    pokemon_name: string,
-    pokemon_name_fr: string,
-    created: string
 }
 
 export default function Pokemon(props: Props) {
@@ -23,7 +19,8 @@ export default function Pokemon(props: Props) {
     const [editedPokemon, setEditedPokemon] = useState({})
     const [forms, setForms] = useState<Form[] | null>(null)
     const [error, setError] = useState<string | null>(null)
-    const [showModal, setShowModal] = useState<string>('')
+    const [message, setMessage] = useState<string | null>(null)
+
     const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false)
     const router = useRouter()
     const token = Cookies.get('token')
@@ -63,11 +60,16 @@ export default function Pokemon(props: Props) {
                     setError(error.response.data.message)
                 })
         }
-    }, [pokemon, token])
+    }, [pokemon, token, message])
 
     // Update pokemon   
     const handleSubmit = (e: FormEvent) => {
+        setMessage(null)
+        setError(null)
         e.preventDefault()
+        if (pokemon === null) {
+            return
+        }
         axios
             .put(`http://localhost:3001/api/pokemon/${pokemon.pokemon_id}`, editedPokemon, {
                 headers: {
@@ -76,7 +78,7 @@ export default function Pokemon(props: Props) {
             })
             .then(response => {
                 if (response.status === 200) {
-                    setShowModal(response.data.message)               
+                    setMessage(response.data.message)               
                 } else {
                     setError('Failed to update pokemon.')
                 }
@@ -91,6 +93,12 @@ export default function Pokemon(props: Props) {
     }
 
     const confirmDelete = async () => {
+        setMessage(null)
+        setError(null)
+        if (pokemon === null) {
+            setError('No pokemon to delete.')
+            return
+        }
         axios
             .delete(`http://localhost:3001/api/pokemon/${pokemon.pokemon_id}`, {
                 headers: {
@@ -101,18 +109,38 @@ export default function Pokemon(props: Props) {
                 router.push('/')
             })
             .catch(error => {
-                setError(error.message)
+                setError(error.response.data.message)
             })
     }
 
     const cancelDelete = () => {
         setDeleteConfirm(false)
     }
+    // Add new pokemon form
+    const handleAddClick = (newVariant: VariantInterface) => {
+        setError(null)
+        setMessage(null)
+        axios
+            .post('http://localhost:3001/api/form', newVariant, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                setMessage(response.data.message)
+            })
+            .catch(error => {
+                setError(error.response.data.message)
+            })
+    }
 
     return (
         <div className={style.container}>
             {
                 error && <p className={style.error}>{error}</p>
+            }
+            {
+                message && <p className={style.message}>{message}</p>
             }
             {
                 pokemon !== null && (
@@ -151,6 +179,12 @@ export default function Pokemon(props: Props) {
             <div className={style.variants}>
                 <h2 style={{ textAlign: 'center' }}>Variants</h2>
                 {
+                    pokemon && 
+                    <AddVariantForm 
+                        pokemonId={pokemon.pokemon_id}
+                        onAddClick={handleAddClick}/>
+                }
+                {
                     forms?.length ? (
                         forms.map((form, index) => (
                             <div key={index} style={{ marginBottom: "1rem" }}>
@@ -162,22 +196,6 @@ export default function Pokemon(props: Props) {
                     )
                 }
             </div>
-            }
-            {
-                showModal !== '' && (
-                    <dialog open className={style.dialog}>
-                        <div>
-                            <h2>{showModal}</h2>
-                            <form method="dialog">
-                                <button
-                                    className={style.button}  
-                                    onClick={() => window.location.reload()}>
-                                        OK
-                                </button>
-                            </form>
-                        </div>
-                    </dialog>
-                )
             }
             {
                 pokemon && deleteConfirm && (
