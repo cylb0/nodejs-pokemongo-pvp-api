@@ -1,5 +1,6 @@
 const { Evolution, Form, Pokemon } = require("../../../db/sequelize")
 const auth = require('./../../../auth/auth')
+const Sequelize = require('sequelize')
 
 module.exports = (app) => {
     app.get('/api/evolution', auth, (req, res) => {
@@ -15,10 +16,10 @@ module.exports = (app) => {
         }
 
         Evolution.findAndCountAll({
-            attributes: ['id', 'Form.pokemonId', 'Form.Pokemon.pokemon_name', 'Form.form'],
+            attributes: ['id', [Sequelize.col('Form.id'), 'formId'], 'Form.pokemonId', 'Form.Pokemon.pokemon_name', 'Form.form'],
             include: {
                 model: Form,
-                attributes: [],
+                attributes: ['id'],
                 include: {
                     model: Pokemon,
                     attributes: [],
