@@ -1,4 +1,4 @@
-const { Evolution } = require("../../../db/sequelize")
+const { Evolution, Form, Pokemon } = require("../../../db/sequelize")
 const auth = require('./../../../auth/auth')
 
 module.exports = (app) => {
@@ -15,7 +15,19 @@ module.exports = (app) => {
         }
 
         Evolution.findAndCountAll({
-            where: whereClause
+            attributes: ['id', 'Form.pokemonId', 'Form.Pokemon.pokemon_name', 'Form.form'],
+            include: {
+                model: Form,
+                attributes: [],
+                include: {
+                    model: Pokemon,
+                    attributes: [],
+                    required: true
+                },
+                required: true
+            },
+            where: whereClause,
+            raw: true
         })
             .then(({count, rows}) => {
                 const message = `${count} evolutions found.`
