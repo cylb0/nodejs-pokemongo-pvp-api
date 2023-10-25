@@ -25,6 +25,7 @@ export default function Pokemon(props: Props) {
     const [pokemon, setPokemon] = useState<Pokemon | null>(null)
     const [editedPokemon, setEditedPokemon] = useState({})
     const [forms, setForms] = useState<Form[] | null>(null)
+    const [allForms, setAllForms] = useState<Form[] | null>(null)
     const [error, setError] = useState<string | null>(null)
     const [message, setMessage] = useState<string | null>(null)
 
@@ -32,6 +33,7 @@ export default function Pokemon(props: Props) {
     const router = useRouter()
     const token = Cookies.get('token')
 
+    
     // Fetch pokemon data
     useEffect(() => {
         axios.get(`http://localhost:3001/api/pokemon/${props.pokemon_id}`, {
@@ -50,6 +52,24 @@ export default function Pokemon(props: Props) {
                 setError(error.response.data.message)
             })
     }, [props.pokemon_id, token])
+
+    // Fetch all forms
+    useEffect(() => {
+        axios
+            .get('http://localhost:3001/api/form', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    setAllForms(response.data.data)
+                }
+            })
+            .catch(error => {
+                setError(error.response.data.message)
+            })
+    }, [])
 
     // Fetch forms as soon as pokemon is retrieved
     useEffect(() => {
@@ -176,13 +196,9 @@ export default function Pokemon(props: Props) {
                                 <button className={`${formStyle.button} ${formStyle.edit}`} type="submit">Save changes</button>
                             </div>
                         </form>
-                        <Image
-                            className={style.icon}
-                            src={'/icons/delete.png'}
-                            width={24}
-                            height={24}
-                            alt='Delete icon'
-                            onClick={() => handleDeleteClick()} />
+
+                        <button className={`${formStyle.button} ${formStyle.delete}`} onClick={handleDeleteClick}>Delete pokemon</button>        
+                    
                     </div>
                 )
             }
@@ -196,10 +212,10 @@ export default function Pokemon(props: Props) {
                         onAddClick={handleAddClick}/>
                 }
                 {
-                    forms?.length ? (
+                    forms?.length && allForms?.length ? (
                         forms.map((form) => (
                             <div key={form.id} style={{ marginBottom: "1rem" }}>
-                                <Variant key={form.id} {...form} />
+                                <Variant key={form.id} form={form} allForms={allForms}/>
                             </div>
                         ))
                     ) : (
