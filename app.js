@@ -49,6 +49,7 @@ require('./src/routes/crud/evolution/deleteEvolution')(app)
 
 // PUBLIC ROUTES
 require('./src/routes/public/login')(app)
+require('./src/routes/public/getPokemonNames')(app)
 require('./src/routes/public/getPokemonEvolutions')(app)
 require('./src/routes/public/getPokemonStats')(app)
 
