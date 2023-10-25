@@ -3,7 +3,20 @@ const auth = require('./../../../auth/auth')
 
 module.exports = (app) => {
     app.get('/api/evolution', auth, (req, res) => {
-        Evolution.findAndCountAll()
+
+        let whereClause = {}
+
+        if (req.query.id) {
+            const id = req.query.id
+            if (isNaN(id) || id < 1) {
+                return res.status(400).json({ message: `Invalid id, id should be an integer superior to one.` })
+            }
+            whereClause.fromId = id
+        }
+
+        Evolution.findAndCountAll({
+            where: whereClause
+        })
             .then(({count, rows}) => {
                 const message = `${count} evolutions found.`
                 return res.json({ message, data: rows })
