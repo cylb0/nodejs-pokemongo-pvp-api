@@ -41,12 +41,15 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res, query }
                     }
                 }
             }
-            return {
+            return Promise.resolve({
                 props: { previousId, nextId }
-            }
+            })
         })
         .catch(error => {
             console.error(error)
+            return Promise.resolve({
+                props: { previousId, nextId }
+            })
         })
 }
 
