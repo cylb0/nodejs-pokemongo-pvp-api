@@ -33,6 +33,7 @@ export default function Variant(props: Form) {
     const token = Cookies.get('token')
     const router = useRouter()
 
+    // Fetch evolutions
     useEffect(() => {
         axios
             .get(`http://localhost:3001/api/evolution?id=${props.id}`, {
@@ -43,7 +44,6 @@ export default function Variant(props: Form) {
             .then(response => {
                 if (response.status === 200) {
                     setEvolutions(response.data.data)
-                    console.log(response.data.data)
                 }
             })
             .catch(error => {
@@ -100,7 +100,7 @@ export default function Variant(props: Form) {
             {
                 error && <p className={UIStyle.error}>{error}</p>
             }
-            <p>Pokemon form {props.id}</p>
+            <h2>#{props.pokemon_id} {props.pokemon_name} {props.form} form</h2>
             <form onSubmit={handleSubmit}>
                 <div className={formStyle.inputelement}>
                     <label>Form</label>
