@@ -1,5 +1,6 @@
-import { FormEvent, useState } from 'react'
+import { FormEvent, useEffect, useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useRouter } from "next/router"
 
 import axios from "axios"
@@ -11,17 +12,44 @@ import style from '@/styles/variant.module.css'
 import formStyle from '@/styles/forms.module.css'
 import UIStyle from '@/styles/usermessages.module.css'
 
+interface EvolutionInterface {
+    id: number,
+    pokemonId: number,
+    pokemon_name: string,
+    form: string
+}
+
 
 export default function Variant(props: Form) {
     const [form, setForm] = useState<string>(props.form)
     const [baseAtk, setBaseAtk] = useState<number>(props.base_attack)
     const [baseDef, setBaseDef] = useState<number>(props.base_defense)
     const [baseSta, setBaseSta] = useState<number>(props.base_stamina)
+    const [evolutions, setEvolutions] = useState<EvolutionInterface[]>([])
+
     const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false)
     const [showModal, setShowModal] = useState<string>('')
     const [error, setError] = useState<string | null>(null)
     const token = Cookies.get('token')
     const router = useRouter()
+
+    useEffect(() => {
+        axios
+            .get(`http://localhost:3001/api/evolution?id=${props.id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (response.status === 200) {
+                    setEvolutions(response.data.data)
+                    console.log(response.data.data)
+                }
+            })
+            .catch(error => {
+                setError(error.response.data.message)
+            })
+    }, [])
 
     const handleDeleteClick = () => {
         setDeleteConfirm(true)
@@ -137,6 +165,18 @@ export default function Variant(props: Form) {
                     <button className={`${formStyle.button} ${formStyle.edit}`} type="submit">Save changes</button>
                 </div>
             </form>
+            <p>Evolutions :</p>
+            {
+                evolutions.length ? (
+                    evolutions.map(evolution => (
+                        <Link href={`/pokemon/${evolution.pokemonId}`}>
+                            <p key={evolution.id}>#{evolution.pokemonId} {evolution.pokemon_name} {evolution.form} form</p>
+                        </Link>
+                    ))
+                ) : (
+                    <p>No evolutions</p>
+                )
+            }
             <Image
                 className={style.icon}
                 src={'/icons/delete.png'}

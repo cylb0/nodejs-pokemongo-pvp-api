@@ -25,7 +25,6 @@ export default function Pokemon(props: Props) {
     const [pokemon, setPokemon] = useState<Pokemon | null>(null)
     const [editedPokemon, setEditedPokemon] = useState({})
     const [forms, setForms] = useState<Form[] | null>(null)
-    console.log('-----FORMS------', forms)
     const [error, setError] = useState<string | null>(null)
     const [message, setMessage] = useState<string | null>(null)
 
