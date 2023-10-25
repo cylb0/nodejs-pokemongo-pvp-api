@@ -10,6 +10,8 @@ import SearchEvolution from '@/components/SearchEvolution'
 
 import Form from "@/interfaces/Form"
 
+import buildSpriteURL from '@/services/buildSpriteUrl'
+
 import style from '@/styles/variant.module.css'
 import formStyle from '@/styles/forms.module.css'
 import UIStyle from '@/styles/usermessages.module.css'
@@ -165,6 +167,11 @@ export default function Variant(props: VariantProps) {
                 message && <p className={UIStyle.message}>{message}</p>
             }
             <h2>#{props.form.pokemon_id} {props.form.pokemon_name} {props.form.form} form</h2>
+            <Image 
+                src={buildSpriteURL(props.form)}
+                width={100}
+                height={100}
+                alt={`${props.form.pokemon_name} ${props.form.form} form sprite`}/>
             <form onSubmit={handleSubmit}>
                 <div className={formStyle.inputelement}>
                     <label>Form</label>
