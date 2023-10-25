@@ -11,17 +11,21 @@ import VariantInterface from '@/interfaces/Variant'
 
 import Variant from './Variant'
 import AddVariantForm from './AddVariantForm'
+import PokemonBrowser from './PokemonBrowser'
 
 import style from '@/styles/pokemon.module.css'
 import UIStyle from '@/styles/usermessages.module.css'
 import formStyle from '@/styles/forms.module.css'
+import Link from 'next/link'
 
 
-interface Props {
-    pokemon_id: number | null
+interface PokemonProps {
+    pokemon_id: number | null,
+    previousId: number | null,
+    nextId: number | null
 }
 
-export default function Pokemon(props: Props) {
+export default function Pokemon({ pokemon_id, previousId, nextId }: PokemonProps) {
     const [pokemon, setPokemon] = useState<Pokemon | null>(null)
     const [editedPokemon, setEditedPokemon] = useState({})
     const [forms, setForms] = useState<Form[] | null>(null)
@@ -36,7 +40,7 @@ export default function Pokemon(props: Props) {
     
     // Fetch pokemon data
     useEffect(() => {
-        axios.get(`http://localhost:3001/api/pokemon/${props.pokemon_id}`, {
+        axios.get(`http://localhost:3001/api/pokemon/${pokemon_id}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -51,7 +55,7 @@ export default function Pokemon(props: Props) {
             .catch(error => {
                 setError(error.response.data.message)
             })
-    }, [props.pokemon_id, token])
+    }, [pokemon_id, token])
 
     // Fetch all forms
     useEffect(() => {
@@ -165,6 +169,7 @@ export default function Pokemon(props: Props) {
 
     return (
         <div className={style.container}>
+            <PokemonBrowser previousId={previousId} nextId={nextId}/>
             {
                 error && <p className={UIStyle.error}>{error}</p>
             }
