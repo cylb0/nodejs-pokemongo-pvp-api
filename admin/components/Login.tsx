@@ -1,8 +1,11 @@
 import { ChangeEvent, FormEvent, useState } from 'react'
+import { useRouter } from 'next/router'
+
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import { useRouter } from 'next/router'
+
 import formStyle from '@/styles/forms.module.css'
+import UIStyle from '@/styles/usermessages.module.css'
 
 export default function Login() {
     const [username, setUsername] = useState<string>('')
@@ -45,7 +48,7 @@ export default function Login() {
     return (
         <div>
             {
-                error && <p>{ error }</p>
+                error && <p className={UIStyle.error}>{ error }</p>
             }
             <form 
                 className={formStyle.form}
