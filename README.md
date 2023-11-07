@@ -4,119 +4,85 @@ PokemonGoAPI is a simple API allowing consumers to obtain pvp stats for each pok
 
 ## How to use
 
-### GET /api/pokemon - Retrieve all data
-You may retrieve every available Pokemon data by making a GET request to '/api/pokemon'. It returns a JSON response containing a message and a data array of pokemon records. Each pokemon record is represented as a JSON object. 
-
-### GET /api/pokemon?id=1 - Search by pokemon ID
-You can search for a specific Pokemon using its ID using the 'id' query parameter.
-Please note that when searching by ID, you may receive multiple results if the Pokemon has different available regional forms.
-#### Example of data
+### GET /api/pokemon_names.json - Retrieve all available pokemon names
+You may retrieve every available Pokemon data by making a GET request to '/api/pokemon_names.json'. It returns a JSON response containing an array of pokemon records. Each pokemon record is represented as a JSON object containing its ID and names.
+### Example of data :
 ```json
-{
-	"message": "1 pokemons found.",
-	"data": [
-		{
-			"id": 1,
-			"pokemon_id": 1,
-			"name": "Bulbasaur",
-			"form": "Normal",
-			"base_attack": 118,
-			"base_defense": 111,
-			"base_stamina": 128,
-			"created": "2023-10-03T00:52:52.000Z"
-		}
-	]
-}
-```
-
-### GET /api/pokemon?name=saur - Search by name
-You can search for a Pokemon by its name using the 'name' query parameter. Please note that you can use partial names.
-Please also note that when searching by name, you may receive multiple results if the Pokemon has different available regional forms.
-#### Example of data
-```json
-{
-	"message": "3 pokemons found.",
-	"data": [
-		{
-			"id": 1,
-			"pokemon_id": 1,
-			"name": "Bulbasaur",
-			"form": "Normal",
-			"base_attack": 118,
-			"base_defense": 111,
-			"base_stamina": 128,
-			"created": "2023-10-02T21:11:02.000Z"
-		},
-		{
-			"id": 2,
-			"pokemon_id": 2,
-			"name": "Ivysaur",
-			"form": "Normal",
-			"base_attack": 151,
-			"base_defense": 143,
-			"base_stamina": 155,
-			"created": "2023-10-02T21:11:02.000Z"
-		},
-		{
-			"id": 3,
-			"pokemon_id": 3,
-			"name": "Venusaur",
-			"form": "Normal",
-			"base_attack": 198,
-			"base_defense": 189,
-			"base_stamina": 190,
-			"created": "2023-10-02T21:11:02.000Z"
-		}
-	]
-}
-```
-
-### GET /api/pokemon?name=Raichu&form=Alolan - Search for specific regional form
-If you're looking for a specific form of a Pokemon, you can provide a 'form' query parameter in addition to an ID or name.
-Available regional forms only include 'Normal', 'Alola', 'Galarian', 'Hisuian'
-Please note that some Pokemons only have a Normal form.
-Please also note that you need to combine this query parameter with either 'id' or 'name' query parameter but not both.
-#### Example of data
-```json
-{
-	"message": "1 pokemons found.",
-	"data": [
-		{
-			"id": 4,
-			"pokemon_id": 26,
-			"name": "Raichu",
-			"form": "Alolan",
-			"base_attack": 201,
-			"base_defense": 154,
-			"base_stamina": 155,
-			"created": "2023-10-02T21:17:33.000Z"
-		}
-	]
-}
-```
-
-### GET /api/available_pokemons - Get a list of every available pokemon
-You can search for every unique available pokemon. It will return an JSON response containing an array of JSON objects representing pokemons.
-#### Example of data
-```json
-{
-	"message": "Available pokemons have been successfully retrieved.",
-	"data": [
-		{
-			"pokemon_id": 1,
-			"name": "Bulbasaur"
-		},
-		{
-			"pokemon_id": 2,
-			"name": "Ivysaur"
-		},
-		{
-			"pokemon_id": 3,
-			"name": "Venusaur"
-		}
-	]
-}
+[
+	{
+		"pokemon_id": 1,
+		"pokemon_name": "Bulbasaur",
+		"pokemon_name_fr": "Bulbizarre"
+	},
+	{
+		"pokemon_id": 2,
+		"pokemon_name": "Ivysaur",
+		"pokemon_name_fr": "Herbizarre"
+	}
+]
 ``` 
+
+### GET /api/pokemon_stats.json - Retrieve all available pokemon stats
+You may retrieve every available Pokemon stats by making a GET request to '/api/pokemon_stats.json'. It returns a JSON response containing JSON objects for each Pokemon. 
+### Example of data :
+```json
+[
+	{
+		"pokemon_id": 1,
+		"pokemon_name": "Bulbasaur",
+		"pokemon_name_fr": "Bulbizarre",
+		"from": "Normal",
+		"base_attack": 118,
+		"base_defense": 111,
+		"base_stamina": 128
+	},
+	{
+		"pokemon_id": 2,
+		"pokemon_name": "Ivysaur",
+		"pokemon_name_fr": "Herbizarre",
+		"from": "Normal",
+		"base_attack": 151,
+		"base_defense": 143,
+		"base_stamina": 155
+	}
+]
+```
+
+### GET /api/pokemon_evolutions.json - Retrieve every pokemon and their evolutions
+You may retrieve every pokemon and their evolutions data by making a GET request to '/api/pokemon_evolutions.json'. It returns an array of JSON objects that contains data for every Pokemon.
+### Example of data
+```json
+[
+	...,
+	{
+		"pokemon_id": 133,
+		"pokemon_name": "Eevee",
+		"pokemon_name_fr": "Évoli",
+		"form": "Normal",
+		"evolutions": [
+			{
+				"pokemon_id": 134,
+				"pokemon_name": "Vaporeon",
+				"pokemon_name_fr": "Aquali",
+				"form": "Normal"
+			},
+			{
+				"pokemon_id": 135,
+				"pokemon_name": "Jolteon",
+				"pokemon_name_fr": "Voltali",
+				"form": "Normal"
+			},
+			{
+				"pokemon_id": 136,
+				"pokemon_name": "Flareon",
+				"pokemon_name_fr": "Pyroli",
+				"form": "Normal"
+			}
+		]
+	},
+	...
+]
+```
 
 ## Authentication
 Authentication is required for access to certain features like creating, updating or deleting data.
@@ -144,19 +110,5 @@ To access protected endpoints, you need to include the obtained token in the Aut
 ```
 Authorization: Bearer your_token
 ```
-
-### POST /api/pokemon
-Create a new pokemon
-
-### POST /api/pokemon/:id
-Update an existing pokemon
-
-### DELETE /api/pokemon/:id
-Delete an existing pokemon
-
-## Error handling
-- If you provide an invalid or negative ID, you will receive a 404 error with a message explaining the issue.
-- If you provide both 'id' and 'name' query parameters, you will receive a 400 error with a message instructing to provide either one.
-- If you search for a Pokemon providing an invalid 'form' query parameter, you will receive a 404 error with a message listing valid forms.
 
 Enjoy using this API and start exploring the world of Pokemon !
